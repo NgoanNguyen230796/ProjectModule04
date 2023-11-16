@@ -1,13 +1,13 @@
 package com.ra.model;
 
 import jakarta.validation.constraints.NotBlank;
-import net.bytebuddy.implementation.bind.annotation.Default;
 
 import javax.persistence.*;
 
 import java.util.List;
 
 @Entity
+//@JsonBackReference
 @Table(name = "Category")
 public class Category {
     @Id
@@ -30,7 +30,7 @@ public class Category {
     @Column(columnDefinition = "boolean default true",name = "category_status")
     private boolean categoryStatus;
 
-    @OneToMany(mappedBy = "category",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "category",fetch = FetchType.LAZY)
     private List<Product> listProduct;
 
     public Category() {

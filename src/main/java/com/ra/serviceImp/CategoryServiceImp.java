@@ -58,4 +58,8 @@ public class CategoryServiceImp implements ICategoryService {
         return false;
     }
 
+    @Override
+    public List<Category> findAllDataByCategoryIdAndCategoryName() {
+        return categoryRepository.findAll();
+    }
 }

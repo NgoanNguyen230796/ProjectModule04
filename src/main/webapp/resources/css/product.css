@@ -3,9 +3,9 @@
     height: 500px;
 }
 
-.modalSet{
+.modalSetProduct{
     width:800px ;
-    height: 350px;
+    height: 600px;
 }
 .modalSetDelete{
     width:400px ;
@@ -13,4 +13,9 @@
 }
 a{
     text-decoration:none;
+}
+
+.imageProduct{
+    width: 100px;
+    height: 100px;
 }

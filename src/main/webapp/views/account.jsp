@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: ngoan
@@ -105,15 +106,15 @@
         <!-- Sidebar -->
         <div class="sidebar">
             <!-- Sidebar user panel (optional) -->
-<%--            <div class="user-panel mt-3 pb-3 mb-3 d-flex">--%>
-<%--                <div class="image">--%>
-<%--                    <img src="<%=request.getContextPath()%>/resources/dist/img/Ngoan.jpg" alt="User Image"--%>
-<%--                         style="height:50px;width:50px"/>--%>
-<%--                </div>--%>
-<%--                <div class="info">--%>
-<%--                    <span class="brand-text font-weight-light">Admin</span>--%>
-<%--                </div>--%>
-<%--            </div>--%>
+            <%--            <div class="user-panel mt-3 pb-3 mb-3 d-flex">--%>
+            <%--                <div class="image">--%>
+            <%--                    <img src="<%=request.getContextPath()%>/resources/dist/img/Ngoan.jpg" alt="User Image"--%>
+            <%--                         style="height:50px;width:50px"/>--%>
+            <%--                </div>--%>
+            <%--                <div class="info">--%>
+            <%--                    <span class="brand-text font-weight-light">Admin</span>--%>
+            <%--                </div>--%>
+            <%--            </div>--%>
 
             <!-- SidebarSearch Form -->
             <!-- Sidebar Menu -->
@@ -160,7 +161,7 @@
                     </li>
                     <!--   Category -->
                     <li class="nav-item">
-                        <a href="<%=request.getContextPath()%>/categoryController/categoryGetAllData" class="nav-link">
+                        <a href="<%=request.getContextPath()%>/accountController/accountGetAllData" class="nav-link">
                             <i class="nav-icon fas fa-th"></i>
                             <p>
                                 Category
@@ -218,157 +219,161 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                <h1 class="text-center mt-2">Danh Mục Sản Phẩm</h1>
+                <h1 class="text-center mt-2">Tài khoản</h1>
                 <div class="main">
                     <div class="d-flex justify-content-center">
                         <div class="col-4 mt-4">
                             <div></div>
                             <form class="d-flex"
-                                  action="<%=request.getContextPath()%>/categoryController/categoryGetAllData"
+                                  action="<%=request.getContextPath()%>/accountController/accountGetAllData"
                                   method="get">
-                                <input class="form-control me-2" type="text" placeholder="Input CategoryName"
-                                       id="categoryNameSearch"
-                                       name="categoryNameSearch" value="${categoryNameDefault}">
+                                <input class="form-control me-2" type="text" placeholder="Input email Search"
+                                       id="emailSearch"
+                                       name="emailSearch" value="${emailDefault}">
                                 <button class="btn btn-outline-success" type="submit">Search</button>
                             </form>
                         </div>
-                        <div class="col-2 ms-5">
+                        <div class="col-2 ms-3">
                             <div>Sort By</div>
+                            <select class="form-select" aria-label="Default select example" id="sortBy" name="sortBy"
+                                    onchange="changeSortByAccount()">
+                                <option value="email" ${sortBy.equals("email")?'selected':''}>Email
+                                </option>
+                                <option value="created" ${sortBy.equals("created")?'selected':''}>Created
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-2 ms-5">
+                            <div>Direction</div>
                             <select class="form-select" aria-label="Default select example" id="direction"
-                                    name="direction" onchange="changeDirection()">
-                                <option value="Default" ${direction.equals("ASC") && sortBy.equals("categoryId")?'selected':''}>
+                                    name="direction" onchange="changeDirectionAccount()">
+                                <option value="Default" ${direction.equals("ASC") && sortBy.equals("accId")?'selected':''}>
                                     Default
                                 </option>
-                                <option value="ASC" ${direction.equals("ASC") && sortBy.equals("categoryName")?'selected':''}>
-                                    Category Name Ascending
+                                <option value="ASC" ${direction.equals("ASC")?'selected':''}>
+                                    Ascending
                                 </option>
-                                <option value="DESC" ${direction.equals("DESC") && sortBy.equals("categoryName") ?'selected':''}>
-                                    Category Name Descending
+                                <option value="DESC" ${direction.equals("DESC")?'selected':''}>
+                                    Descending
                                 </option>
                             </select>
                         </div>
                     </div>
 
-                    <c:choose>
-                        <c:when test="${empty listCategory}">
-                            <div class="listEmty">
-                                <h4 class="text-center">Không tìm thấy kết quả</h4>
-                            </div>
-                        </c:when>
-                        <c:otherwise>
-                            <div class="createDataButton">
-                                    <%--            <a type="button" class="btn btn-success" href="<%=request.getContextPath()%>/productController/initCreate">Create New Product</a>--%>
-                                <a type="button" class="btn btn-outline-success mb-3" data-bs-toggle="modal" href="#createData">Create
-                                    New
-                                    Category</a>
-                            </div>
-                            <table class="table table-bordered table-hover text-center">
-                                <thead>
-                                <tr>
-                                    <th>Category ID</th>
-                                    <th>Category Name</th>
-                                    <th>Description</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <c:forEach items="${listCategory}" var="category">
-                                    <tr>
-                                        <td>${category.categoryId}</td>
-                                        <td>${category.categoryName}</td>
-                                        <td>${category.categoryDescription}</td>
-                                        <td>${category.categoryStatus?"Active":"Inactive"}</td>
-                                        <td>
-                                            <a class="btn btn-outline-warning update" data-bs-toggle="modal" href="#updateData"><i
-                                                    class="fa-solid fa-pen-to-square"></i></a>
-                                                <%--                                            <a class="btn btn-warning update" href="<%=request.getContextPath()%>/categoryController/initUpdate?categoryId=${category.categoryId}">Update</a>--%>
-                                            <a class="btn btn-outline-danger delete" data-bs-toggle="modal"
-                                               href="#deleteData"><i class="fa-solid fa-trash"></i></a>
-                                            <input type="hidden" id="caId" value="${category.categoryId}">
-                                        </td>
-                                    </tr>
+                    <%--                    <c:choose>--%>
+                    <%--                        <c:when test="${empty listAccount}">--%>
+                    <%--                            <div class="listEmty">--%>
+                    <%--                                <h4 class="text-center">Không tìm thấy kết quả</h4>--%>
+                    <%--                            </div>--%>
+                    <%--                        </c:when>--%>
+                    <%--                        <c:otherwise>--%>
+                    <div class="createDataButton">
+                        <%--            <a type="button" class="btn btn-success" href="<%=request.getContextPath()%>/productController/initCreate">Create New Product</a>--%>
+                        <a type="button" class="btn btn-outline-success mb-3" data-bs-toggle="modal" href="#createData">Create
+                            New
+                            Account</a>
+                    </div>
+                    <table class="table table-bordered table-hover text-center">
+                        <thead>
+                        <tr>
+                            <th>Account ID</th>
+                            <th>Email</th>
+                            <th>Password</th>
+                            <th>Created</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${listAccount}" var="account">
+                            <tr>
+                                <td>${account.accId}</td>
+                                <td>${account.email}</td>
+                                <td>${account.password}</td>
+                                <td><fmt:formatDate pattern="dd/MM/yyyy" value="${account.created}"></fmt:formatDate></td>
+                                <td>${account.role?"Admin":"Customer"}</td>
+                                <td>${account.accStatus?"Khóa":"Hoạt động"}</td>
+                                <td>
+                                    <a class="btn btn-outline-warning update" data-bs-toggle="modal" href="#updateData"><i
+                                            class="fa-solid fa-pen-to-square"></i></a>
+
+                                    <a class="btn btn-outline-danger delete" data-bs-toggle="modal"
+                                       href="#deleteData"><i class="fa-solid fa-trash"></i></a>
+                                    <input type="hidden" id="caId" value="${account.accId}">
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                    <div>
+                        <nav aria-label="...">
+                            <ul class="pagination">
+                                <li class="page-item ${currentPage <= 1 ? 'disabled' : ''}">
+                                    <c:choose>
+                                        <c:when test="${currentPage <= 1}">
+                                            <a class="page-link"
+                                               href="<%=request.getContextPath()%>/accountController/accountGetAllData?page=${currentPage}"
+                                               tabindex="-1" aria-disabled="true">Previous</a>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <a class="page-link"
+                                               href="<%=request.getContextPath()%>/accountController/accountGetAllData?page=${currentPage - 1}"
+                                               tabindex="-1" aria-disabled="false">Previous</a>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </li>
+                                <c:forEach begin="1" end="${totalPage}" var="i">
+                                    <li class="page-item ${currentPage == i ? 'active' : ''}"
+                                        aria-current="page">
+                                        <a class="page-link"
+                                           href="<%=request.getContextPath()%>/accountController/accountGetAllData?page=${i}">${i}</a>
+                                    </li>
                                 </c:forEach>
-                                </tbody>
-                            </table>
-                            <div>
-                                <nav aria-label="...">
-                                    <ul class="pagination">
-                                        <li class="page-item ${currentPage <= 1 ? 'disabled' : ''}">
-                                            <c:choose>
-                                                <c:when test="${currentPage <= 1}">
-                                                    <a class="page-link"
-                                                       href="<%=request.getContextPath()%>/categoryController/categoryGetAllData?page=${currentPage}"
-                                                       tabindex="-1" aria-disabled="true">Previous</a>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <a class="page-link"
-                                                       href="<%=request.getContextPath()%>/categoryController/categoryGetAllData?page=${currentPage - 1}"
-                                                       tabindex="-1" aria-disabled="false">Previous</a>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </li>
-                                        <c:forEach begin="1" end="${totalPage}" var="i">
-                                            <li class="page-item ${currentPage == i ? 'active' : ''}"
-                                                aria-current="page">
-                                                <a class="page-link"
-                                                   href="<%=request.getContextPath()%>/categoryController/categoryGetAllData?page=${i}">${i}</a>
-                                            </li>
-                                        </c:forEach>
-                                        <li class="page-item ${currentPage >= totalPage ? 'disabled' : ''}">
-                                            <c:choose>
-                                                <c:when test="${currentPage >= totalPage}">
-                                                    <a class="page-link"
-                                                       href="<%=request.getContextPath()%>/categoryController/categoryGetAllData?page=${totalPage}"
-                                                       tabindex="-1" aria-disabled="true">Next</a>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <a class="page-link"
-                                                       href="<%=request.getContextPath()%>/categoryController/categoryGetAllData?page=${currentPage + 1}"
-                                                       tabindex="-1" aria-disabled="false">Next</a>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </li>
-                                    </ul>
+                                <li class="page-item ${currentPage >= totalPage ? 'disabled' : ''}">
+                                    <c:choose>
+                                        <c:when test="${currentPage >= totalPage}">
+                                            <a class="page-link"
+                                               href="<%=request.getContextPath()%>/accountController/accountGetAllData?page=${totalPage}"
+                                               tabindex="-1" aria-disabled="true">Next</a>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <a class="page-link"
+                                               href="<%=request.getContextPath()%>/accountController/accountGetAllData?page=${currentPage + 1}"
+                                               tabindex="-1" aria-disabled="false">Next</a>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </li>
+                            </ul>
 
-                                </nav>
-                            </div>
-                        </c:otherwise>
-                    </c:choose>
+                        </nav>
+                    </div>
+                    <%--                        </c:otherwise>--%>
+                    <%--                    </c:choose>--%>
 
-                    <%--    Modal Create Data--%>
+                    <%--Modal Create Data--%>
                     <div class="modal fade" id="createData" tabindex="-1" aria-labelledby="createDataModal"
                          aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content modalSet">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="createDataModal">Thêm mới danh mục</h5>
+                                    <h5 class="modal-title" id="createDataModal">Thêm mới tài khoản</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="<%=request.getContextPath()%>/categoryController/create"
+                                    <form action="<%=request.getContextPath()%>/accountController/create"
                                           method="post">
                                         <div class="row groupRow">
                                             <div class="col-6">
-                                                <label for="categoryName" class="fw-bold">Category Name</label>
-                                                <input type="text" id="categoryName" name="categoryName"
+                                                <label for="email" class="fw-bold">Email</label>
+                                                <input type="text" id="email" name="email"
                                                        class="form-control">
                                             </div>
                                             <div class="col-6">
-                                                <label for="categoryDescription" class="fw-bold">Category
-                                                    Description</label>
-                                                <input type="text" id="categoryDescription" name="categoryDescription"
+                                                <label for="password" class="fw-bold">Password</label>
+                                                <input type="text" id="password" name="password"
                                                        class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="row groupRow">
-                                            <div class="col-6">
-                                                <label for="categoryStatus" class="fw-bold">Category Status</label>
-                                                <select id="categoryStatus" name="categoryStatus" class="form-select">
-                                                    <option value="true" selected id="activeValue">Active</option>
-                                                    <option value="false">Inactive</option>
-                                                </select>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -376,7 +381,6 @@
                                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close
                                             </button>
                                         </div>
-
                                     </form>
                                 </div>
                             </div>
@@ -388,7 +392,7 @@
                         <div class="modal-dialog">
                             <div class="modal-content modalSet">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="updateDataModal">Cập nhật danh mục</h5>
+                                    <h5 class="modal-title" id="updateDataModal">Cập nhật tài khoản</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                 </div>
@@ -397,37 +401,49 @@
                                           method="post">
                                         <div class="row groupRow">
                                             <div class="col-6">
-                                                <label for="categoryIdUpdate" class="fw-bold">Category ID</label>
-                                                <input type="text" id="categoryIdUpdate" name="categoryId"
+                                                <label for="accIdUpdate" class="fw-bold">Account ID</label>
+                                                <input type="text" id="accIdUpdate" name="accId"
                                                        class="form-control"
-                                                       value="${categoryEdit.categoryId}" readonly>
+                                                       value="${account.accId}" readonly>
                                             </div>
                                             <div class="col-6">
-                                                <label for="categoryNameUpdate" class="fw-bold">Category Name</label>
-                                                <input type="text" id="categoryNameUpdate" name="categoryName"
+                                                <label for="emailUpdate" class="fw-bold">Email</label>
+                                                <input type="text" id="emailUpdate" name="email"
                                                        class="form-control"
-                                                       value="${categoryEdit.categoryName}">
+                                                       value="${account.email}">
                                             </div>
                                         </div>
 
                                         <div class="row groupRow">
                                             <div class="col-6">
-                                                <label for="categoryDescriptionUpdate" class="fw-bold">Category
-                                                    Description</label>
-                                                <input type="text" id="categoryDescriptionUpdate"
-                                                       name="categoryDescription"
-                                                       class="form-control" value="${categoryEdit.categoryDescription}">
+                                                <label for="passwordUpdate" class="fw-bold">Password</label>
+                                                <input type="text" id="passwordUpdate"
+                                                       name="password"
+                                                       class="form-control" value="${account.password}">
                                             </div>
                                             <div class="col-6">
-                                                <label for="categoryStatusUpdate" class="fw-bold">Category
-                                                    Status</label>
-                                                <select id="categoryStatusUpdate" name="categoryStatus"
-                                                        class="form-select">
-                                                    <option value="true" selected>Active</option>
+                                                <label for="createdUpdate" class="fw-bold">Created</label>
+                                                <input type="date" id="createdUpdate"
+                                                       name="created"
+                                                       class="form-control" value="${account.created}">
+                                            </div>
+                                        </div>
+                                        <div class="row groupRow">
+                                            <div class="col-6">
+                                                <label for="roleUpdate" class="fw-bold">Role</label>
+                                                <input type="text" id="roleUpdate"
+                                                       name="role"
+                                                       class="form-control" value="${account.role}">
+                                            </div>
+                                            <div class="col-6">
+                                                <label for="accStatusUpdate" class="fw-bold">Status</label>
+                                                <select id="accStatusUpdate" name="accStatus" class="form-select">
+                                                    <option value="true" selected id="activeValue">Active</option>
                                                     <option value="false">Inactive</option>
                                                 </select>
                                             </div>
                                         </div>
+
                                         <div class="modal-footer">
                                             <button type="submit" class="btn btn-success">Update</button>
                                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close
@@ -437,30 +453,31 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <%--    Modal Delete Data--%>
-                    <div class="modal" id="deleteData">
-                        <div class="modal-dialog">
-                            <div class="modal-content modalSetDelete">
-                                <!-- Modal Header -->
-                                <div class="modal-header">
-                                    <h4 class="modal-title">Bạn có muốn xóa không?</h4>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                </div>
-                                <!-- Modal body -->
-                                <div class="modal-body text-center">
-                                    <form action="<%=request.getContextPath()%>/categoryController/delete?">
-                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">No
-                                        </button>
-                                        <input type="hidden" name="catalogIdDelete" id="catalogIdDelete" value="">
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                </div>
+                        <%--                    </div>--%>
+                        <%--                    &lt;%&ndash;    Modal Delete Data&ndash;%&gt;--%>
+                        <%--                    <div class="modal" id="deleteData">--%>
+                        <%--                        <div class="modal-dialog">--%>
+                        <%--                            <div class="modal-content modalSetDelete">--%>
+                        <%--                                <!-- Modal Header -->--%>
+                        <%--                                <div class="modal-header">--%>
+                        <%--                                    <h4 class="modal-title">Bạn có muốn xóa không?</h4>--%>
+                        <%--                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>--%>
+                        <%--                                </div>--%>
+                        <%--                                <!-- Modal body -->--%>
+                        <%--                                <div class="modal-body text-center">--%>
+                        <%--                                    <form action="<%=request.getContextPath()%>/categoryController/delete?">--%>
+                        <%--                                        <button type="submit" class="btn btn-danger">Delete</button>--%>
+                        <%--                                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">No--%>
+                        <%--                                        </button>--%>
+                        <%--                                        <input type="hidden" name="catalogIdDelete" id="catalogIdDelete" value="">--%>
+                        <%--                                    </form>--%>
+                        <%--                                </div>--%>
+                        <%--                                <div class="modal-footer">--%>
+                        <%--                                </div>--%>
 
-                            </div>
-                        </div>
+                        <%--                            </div>--%>
+                        <%--                        </div>--%>
+                        <%--                    </div>--%>
                     </div>
                 </div>
             </div>
@@ -525,32 +542,32 @@
 
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script>
-    $('table .update').click(function () {
-        console.log('Vào update dữ liệu');
-        let getId = $(this).parent().find('#caId').val();
-        $.ajax({
-            type: 'GET',
-            url: '<%=request.getContextPath()%>/categoryController/initUpdate?categoryId=' + getId,
-            success: function (categoryEdit) {
-                console.log("Ok");
-                try {
-                    // Attempt to parse the JSON response
-                    // categoryEdit = JSON.parse(categoryEdit);
-                    $('#categoryIdUpdate').val(categoryEdit.categoryId);
-                    $('#categoryNameUpdate').val(categoryEdit.categoryName);
-                    $('#categoryDescriptionUpdate').val(categoryEdit.categoryDescription);
-                    let status = categoryEdit.categoryStatus.toString();
-                    $('#categoryStatusUpdate').val(status);
+    <%--$('table .update').click(function () {--%>
+    <%--    console.log('Vào update dữ liệu');--%>
+    <%--    let getId = $(this).parent().find('#caId').val();--%>
+    <%--    $.ajax({--%>
+    <%--        type: 'GET',--%>
+    <%--        url: '<%=request.getContextPath()%>/categoryController/initUpdate?categoryId=' + getId,--%>
+    <%--        success: function (categoryEdit) {--%>
+    <%--            console.log("Ok");--%>
+    <%--            try {--%>
+    <%--                // Attempt to parse the JSON response--%>
+    <%--                // categoryEdit = JSON.parse(categoryEdit);--%>
+    <%--                $('#categoryIdUpdate').val(categoryEdit.categoryId);--%>
+    <%--                $('#categoryNameUpdate').val(categoryEdit.categoryName);--%>
+    <%--                $('#categoryDescriptionUpdate').val(categoryEdit.categoryDescription);--%>
+    <%--                let status = categoryEdit.categoryStatus.toString();--%>
+    <%--                $('#categoryStatusUpdate').val(status);--%>
 
-                } catch (e) {
-                    console.error("Error parsing JSON response:", e);
-                }
+    <%--            } catch (e) {--%>
+    <%--                console.error("Error parsing JSON response:", e);--%>
+    <%--            }--%>
 
-            }
-        })
-    });
+    <%--        }--%>
+    <%--    })--%>
+    <%--});--%>
 </script>
 
-<script src="<%=request.getContextPath()%>/resources/js/category.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/resources/js/account.js" type="text/javascript"></script>
 </body>
 </html>

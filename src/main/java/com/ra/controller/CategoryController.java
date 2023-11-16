@@ -74,7 +74,7 @@ public class CategoryController {
     }
 
 
-    //    //Show dữ liệu lên trên form
+    //Show dữ liệu lên trên form
     @GetMapping("/initUpdate")
     public ResponseEntity<String> initUpdate(int categoryId) {
         //Bước 1 :gọi sang CategoryService lấy thông tin sp theo categoryId

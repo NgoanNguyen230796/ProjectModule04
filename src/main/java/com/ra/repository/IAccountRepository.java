@@ -1,5 +1,6 @@
 package com.ra.repository;
 
+import com.ra.model.Account;
 import com.ra.model.Category;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,9 +11,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ICategoryRepository extends JpaRepository<Category,Integer> {
-    @Query("select ca from Category ca where ca.categoryName like %?1%")
-    Page<Category> findByCategoryName(String categoryNameSearch, Pageable pageable);
-    int countByCategoryNameContains(String categoryName);
-    List<Category> findAll();
+public interface IAccountRepository extends JpaRepository<Account,Integer> {
+    @Query("select ac from Account ac where ac.email like %?1%")
+    Page<Account> findByEmail(String emailSearch, Pageable pageable);
+    int countByEmailContains(String email);
+    List<Account> findAll();
 }
