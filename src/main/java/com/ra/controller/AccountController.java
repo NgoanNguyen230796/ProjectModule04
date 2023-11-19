@@ -1,9 +1,13 @@
 package com.ra.controller;
 
+import com.google.gson.Gson;
 import com.ra.model.Account;
 import com.ra.model.Category;
 import com.ra.service.IAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -60,4 +64,45 @@ public class AccountController {
             return "error";
         }
     }
+
+    @GetMapping("/initUpdate")
+    public ResponseEntity<String> initUpdate(int accId) {
+        //Bước 1 :gọi sang CategoryService lấy thông tin sp theo categoryId
+        Account accountEdit = accountService.findById(accId);
+        //Chuyen du lieu tu java object sang JSON
+        String json = new Gson().toJson(accountEdit);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Content-Type", "application/json");
+        return new ResponseEntity<>(json, responseHeaders, HttpStatus.OK);
+    }
+
+    @PostMapping("/update")
+    public String updateAccount(Account accountEdit) {
+        boolean result = accountService.saveOrUpdate(accountEdit);
+        //Bước 2:nhận result và điều hướng sang trang hiển thị
+        if (result) {
+            return "redirect:accountGetAllData";
+        } else {
+            return "error";
+        }
+    }
+
+    @PostMapping(value = "/lockAndUnlock")
+    public String lockAccount(Account account) {
+        //Thực hiện gọi sang service thực hiện thêm mới
+        boolean result = accountService.saveOrUpdate(account);
+        if (result) {
+            return "redirect:accountGetAllData";
+        } else {
+            return "error";
+        }
+    }
+
+
+
+
+
+
+
+
 }

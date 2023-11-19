@@ -19,9 +19,9 @@ public class CategoryServiceImp implements ICategoryService {
     @Override
     public List<Category> displayData(String categoryNameSearch, int page, int size, String direction, String sortBy) {
         //Khởi tạo đối tượng Pageable
-        Pageable pageable = PageRequest.of(page,size,
-                direction.equals("ASC")? Sort.Direction.ASC: Sort.Direction.DESC,sortBy);
-        List<Category> listCategory = categoryRepository.findByCategoryName(categoryNameSearch,pageable).getContent();
+        Pageable pageable = PageRequest.of(page, size,
+                direction.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, sortBy);
+        List<Category> listCategory = categoryRepository.findByCategoryName(categoryNameSearch, pageable).getContent();
         return listCategory;
     }
 
@@ -41,7 +41,7 @@ public class CategoryServiceImp implements ICategoryService {
         try {
             categoryRepository.save(category);
             return true;
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return false;
@@ -50,16 +50,24 @@ public class CategoryServiceImp implements ICategoryService {
     @Override
     public boolean delete(int categoryId) {
         try {
-            categoryRepository.delete(findById(categoryId));
-            return true;
-        }catch (Exception ex){
+            boolean isCheck = categoryRepository.isCheckProductId(categoryId);
+            if (!isCheck) {
+//                categoryRepository.delete(findById(categoryId));
+                categoryRepository.deleteById(categoryId);
+                return true;
+            }
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return false;
     }
 
+
+
     @Override
-    public List<Category> findAllDataByCategoryIdAndCategoryName() {
-        return categoryRepository.findAll();
+    public List<Category> findAllDataByCategoryStatusIsTrue() {
+        return categoryRepository.findAllByCategoryStatusIsTrue();
     }
+
+
 }

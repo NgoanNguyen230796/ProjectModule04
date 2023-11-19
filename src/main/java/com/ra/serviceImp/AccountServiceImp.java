@@ -26,6 +26,11 @@ public class AccountServiceImp implements IAccountService {
     }
 
     @Override
+    public List<Account> getAllData() {
+        return accountRepository.findAll();
+    }
+
+    @Override
     public int getListPage(String email) {
         int countAccount= accountRepository.countByEmailContains(email);
         return countAccount;
@@ -57,5 +62,10 @@ public class AccountServiceImp implements IAccountService {
             ex.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public List<Account> getAllDataByAccStatusTrue() {
+        return accountRepository.findAllByAccStatusIsTrue();
     }
 }

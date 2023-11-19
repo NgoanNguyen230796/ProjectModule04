@@ -68,4 +68,14 @@ public class ProductServiceImp implements IProductService {
         }
         return false;
     }
+
+    @Override
+    public List<Product> getAllData() {
+        return productRepository.findAll();
+    }
+
+    @Override
+    public List<Product> getAllDataByProductStatusIsTrue() {
+        return productRepository.findAllByProductStatusIsTrue();
+    }
 }

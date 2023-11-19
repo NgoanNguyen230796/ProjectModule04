@@ -179,7 +179,7 @@
                     </li>
                     <!--  Bill -->
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="<%=request.getContextPath()%>/billController/billGetAllData" class="nav-link">
                             <i class="nav-icon fas fa-book"></i>
                             <p>
                                 Bill
@@ -235,7 +235,8 @@
                         </div>
                         <div class="col-2 ms-3">
                             <div>Sort By</div>
-                            <select class="form-select" aria-label="Default select example" id="sortBy" name="sortBy"
+                            <select class="form-select" aria-label="Default select example" id="sortByProduct"
+                                    name="sortBy"
                                     onchange="changeSortByProduct()">
                                 <option value="productId" ${sortBy.equals("productId")?'selected':''}>Product Id
                                 </option>
@@ -246,7 +247,7 @@
                         </div>
                         <div class="col-2 ms-5">
                             <div>Direction</div>
-                            <select class="form-select" aria-label="Default select example" id="direction"
+                            <select class="form-select" aria-label="Default select example" id="directionProduct"
                                     name="direction" onchange="changeDirectionProduct()">
                                 <%--                                <option value="Default" ${direction.equals("ASC") && sortBy.equals("productId")?'selected':''}>--%>
                                 <%--                                    Default--%>
@@ -261,108 +262,108 @@
                         </div>
                     </div>
 
-<%--                    <c:choose>--%>
-<%--                        <c:when test="${empty listProduct}">--%>
-<%--                            <div class="listEmty">--%>
-<%--                                <h4 class="text-center">Không tìm thấy kết quả</h4>--%>
-<%--                            </div>--%>
-<%--                        </c:when>--%>
-<%--                        <c:otherwise>--%>
-                            <%-- Body Data--%>
-                            <div class="createDataButton">
-                                <a type="button" class="btn btn-outline-success mb-3" data-bs-toggle="modal"
-                                   href="#createDataModal">Create
-                                    New
-                                    Product</a>
-                            </div>
-                            <table class="table table-bordered table-hover text-center">
-                                <thead>
-                                <tr>
-                                    <th>Product ID</th>
-                                    <th>Product Name</th>
-                                    <th>Price</th>
-                                    <th>Tittle</th>
-                                    <th>Product Description</th>
-                                    <th>Product Image</th>
-                                    <th>Product Unit</th>
-                                    <th>Status</th>
-                                    <th>Category Name</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <c:forEach items="${listProduct}" var="product">
-                                    <tr>
-                                        <td>${product.productId}</td>
-                                        <td>${product.productName}</td>
-                                        <td>${product.price}</td>
-                                        <td>${product.tittle}</td>
-                                        <td>${product.productDescription}</td>
-                                        <td><img src="${product.image}" alt="${product.productName}" class="imageProduct"/></td>
-                                        <td>${product.productUnit==1?"Yến":product.productUnit==2?"Kg":"Gram"}</td>
-                                        <td>${product.productStatus?"Active":"Inactive"}</td>
-                                        <td>${product.category.categoryName}</td>
-                                        <td>
-                                            <a class="btn btn-outline-danger show" data-bs-toggle="modal"
-                                               href="#showDataDetail"><i class="fa-solid fa-tv"></i></a>
+                    <%--                    <c:choose>--%>
+                    <%--                        <c:when test="${empty listProduct}">--%>
+                    <%--                            <div class="listEmty">--%>
+                    <%--                                <h4 class="text-center">Không tìm thấy kết quả</h4>--%>
+                    <%--                            </div>--%>
+                    <%--                        </c:when>--%>
+                    <%--                        <c:otherwise>--%>
+                    <%-- Body Data--%>
+                    <div class="createDataButton">
+                        <a type="button" class="btn btn-outline-success mb-3" data-bs-toggle="modal"
+                           href="#createDataModal">Create
+                            New
+                            Product</a>
+                    </div>
+                    <table class="table table-bordered table-hover text-center">
+                        <thead>
+                        <tr>
+                            <th>Product ID</th>
+                            <th>Product Name</th>
+                            <th>Price</th>
+                            <th>Tittle</th>
+                            <th>Product Description</th>
+                            <th>Product Image</th>
+                            <th>Product Unit</th>
+                            <th>Status</th>
+                            <th>Category Name</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${listProduct}" var="product">
+                            <tr>
+                                <td>${product.productId}</td>
+                                <td>${product.productName}</td>
+                                <td>${product.price}</td>
+                                <td>${product.tittle}</td>
+                                <td>${product.productDescription}</td>
+                                <td><img src="${product.image}" alt="${product.productName}" class="imageProduct"/></td>
+                                <td>${product.productUnit==1?"Yến":product.productUnit==2?"Kg":"Gram"}</td>
+                                <td>${product.productStatus?"Active":"Inactive"}</td>
+                                <td>${product.category.categoryName}</td>
+                                <td>
+                                    <a class="btn btn-outline-danger show" data-bs-toggle="modal"
+                                       href="#showDataDetail"><i class="fa-solid fa-tv"></i></a>
 
-                                                                                            <a class="btn btn-outline-warning update" data-bs-toggle="modal"
-                                                                                               href="#updateData">Update</a>
-<%--                                            <a class="btn btn-warning update"--%>
-<%--                                               href="<%=request.getContextPath()%>/productController/initUpdate?productId=${product.productId}"><i--%>
-<%--                                                    class="fa-solid fa-pen-to-square"></i></a>--%>
-                                            <a class="btn btn-outline-danger delete" data-bs-toggle="modal"
-                                               href="#deleteData"><i class="fa-solid fa-trash"></i></a>
-                                            <input type="hidden" id="prId" value="${product.productId}">
-                                        </td>
-                                    </tr>
+                                    <a class="btn btn-outline-warning update" data-bs-toggle="modal"
+                                       href="#updateData">Update</a>
+                                        <%--                                            <a class="btn btn-warning update"--%>
+                                        <%--                                               href="<%=request.getContextPath()%>/productController/initUpdate?productId=${product.productId}"><i--%>
+                                        <%--                                                    class="fa-solid fa-pen-to-square"></i></a>--%>
+                                    <a class="btn btn-outline-danger delete" data-bs-toggle="modal"
+                                       href="#deleteData"><i class="fa-solid fa-trash"></i></a>
+                                    <input type="hidden" id="prId" value="${product.productId}">
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                    <div>
+                        <nav aria-label="...">
+                            <ul class="pagination">
+                                <li class="page-item ${currentPage <= 1 ? 'disabled' : ''}">
+                                    <c:choose>
+                                        <c:when test="${currentPage <= 1}">
+                                            <a class="page-link"
+                                               href="<%=request.getContextPath()%>/productController/productGetAllData?page=${currentPage}"
+                                               tabindex="-1" aria-disabled="true">Previous</a>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <a class="page-link"
+                                               href="<%=request.getContextPath()%>/productController/productGetAllData?page=${currentPage - 1}"
+                                               tabindex="-1" aria-disabled="false">Previous</a>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </li>
+                                <c:forEach begin="1" end="${totalPage}" var="i">
+                                    <li class="page-item ${currentPage == i ? 'active' : ''}"
+                                        aria-current="page">
+                                        <a class="page-link"
+                                           href="<%=request.getContextPath()%>/productController/productGetAllData?page=${i}">${i}</a>
+                                    </li>
                                 </c:forEach>
-                                </tbody>
-                            </table>
-                            <div>
-                                <nav aria-label="...">
-                                    <ul class="pagination">
-                                        <li class="page-item ${currentPage <= 1 ? 'disabled' : ''}">
-                                            <c:choose>
-                                                <c:when test="${currentPage <= 1}">
-                                                    <a class="page-link"
-                                                       href="<%=request.getContextPath()%>/productController/productGetAllData?page=${currentPage}"
-                                                       tabindex="-1" aria-disabled="true">Previous</a>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <a class="page-link"
-                                                       href="<%=request.getContextPath()%>/productController/productGetAllData?page=${currentPage - 1}"
-                                                       tabindex="-1" aria-disabled="false">Previous</a>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </li>
-                                        <c:forEach begin="1" end="${totalPage}" var="i">
-                                            <li class="page-item ${currentPage == i ? 'active' : ''}"
-                                                aria-current="page">
-                                                <a class="page-link"
-                                                   href="<%=request.getContextPath()%>/productController/productGetAllData?page=${i}">${i}</a>
-                                            </li>
-                                        </c:forEach>
-                                        <li class="page-item ${currentPage >= totalPage ? 'disabled' : ''}">
-                                            <c:choose>
-                                                <c:when test="${currentPage >= totalPage}">
-                                                    <a class="page-link"
-                                                       href="<%=request.getContextPath()%>/productController/productGetAllData?page=${totalPage}"
-                                                       tabindex="-1" aria-disabled="true">Next</a>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <a class="page-link"
-                                                       href="<%=request.getContextPath()%>/productController/productGetAllData?page=${currentPage + 1}"
-                                                       tabindex="-1" aria-disabled="false">Next</a>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </li>
-                                    </ul>
+                                <li class="page-item ${currentPage >= totalPage ? 'disabled' : ''}">
+                                    <c:choose>
+                                        <c:when test="${currentPage >= totalPage}">
+                                            <a class="page-link"
+                                               href="<%=request.getContextPath()%>/productController/productGetAllData?page=${totalPage}"
+                                               tabindex="-1" aria-disabled="true">Next</a>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <a class="page-link"
+                                               href="<%=request.getContextPath()%>/productController/productGetAllData?page=${currentPage + 1}"
+                                               tabindex="-1" aria-disabled="false">Next</a>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </li>
+                            </ul>
 
-                                </nav>
-                            </div>
-<%--                        </c:otherwise>--%>
-<%--                    </c:choose>--%>
+                        </nav>
+                    </div>
+                    <%--                        </c:otherwise>--%>
+                    <%--                    </c:choose>--%>
 
 
                     <%--    Modal Create Data--%>
@@ -507,7 +508,7 @@
                                             </div>
                                             <div class="col-6">
                                                 <label for="productImageUpdate" class="fw-bold">Product Image</label>
-                                                <input type="file" id="productImageUpdate" name="productImage">
+                                                <input type="file" id="productImageUpdate" name="productImage">ssssss
                                             </div>
 
                                         </div>
@@ -563,7 +564,8 @@
                                 </div>
                                 <!-- Modal body -->
                                 <div class="modal-body text-center">
-                                    <form action="<%=request.getContextPath()%>/productController/delete?" method="post">
+                                    <form action="<%=request.getContextPath()%>/productController/delete?"
+                                          method="post">
                                         <button type="submit" class="btn btn-danger">Delete</button>
                                         <button type="button" class="btn btn-success" data-bs-dismiss="modal">No
                                         </button>
@@ -594,6 +596,28 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Alert delete success -->
+                    <div class="toast-container position-absolute top-0 start-50 mt-5">
+                        <div id="liveToastDeleteSuccess" class="toast bg-success" role="alert" aria-live="assertive"
+                             aria-atomic="true" style="width:290px;height:100px;">
+                            <div class="toast-header"></div>
+                            <div class="toast-body text-light fs-5">
+                                Bạn đã xóa thành công sản phẩm
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Alert delete error -->
+                    <div class="toast-container position-absolute top-0 start-50 mt-5">
+                        <div id="liveToastDeleteError" class="toast bg-danger" role="alert" aria-live="assertive"
+                             aria-atomic="true" style="width:500px;height:100px;">
+                            <div class="toast-header"></div>
+                            <div class="toast-body text-light fs-5">
+                                Trong sản phẩm có chứa bill,rất tiếc không thể xóa
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>
@@ -667,22 +691,30 @@
                 type: 'GET',
                 dataType: "json",
                 url: '<%=request.getContextPath()%>/productController/initUpdate?productId=' + getId,
-                success: function (productEdit) {
+                success: function (productUpdateEdit) {
                     console.log("Ok");
                     try {
                         // Attempt to parse the JSON response
                         // productEdit = JSON.parse(productEdit);
-                        $('#productIdUpdate').val(productEdit.productId);
-                        $('#productNameUpdate').val(productEdit.productName);
-                        $('#priceUpdate').val(productEdit.price);
-                        $('#tittleUpdate').val(productEdit.tittle);
-                        $('#productDescriptionUpdate').val(productEdit.productDescription);
-                        $('#productImageUpdate').val(productEdit.productImage);
-                        let unit = productEdit.productUnit == 1 ? "Yến" : productEdit.productUnit == 2 ? "Kg" : "Gram";
+                        $('#productIdUpdate').val(productUpdateEdit.productId);
+                        $('#productNameUpdate').val(productUpdateEdit.productName);
+                        $('#priceUpdate').val(productUpdateEdit.price);
+                        $('#tittleUpdate').val(productUpdateEdit.tittle);
+                        $('#productDescriptionUpdate').val(productUpdateEdit.productDescription);
+
+                        $('#productImageUpdate').change(function() {
+                            var i = $(this).prev('label').clone();
+                            var file = $('#file-upload')[0].files[0].name;
+                            $(this).prev('label').text(file);
+                        });
+                        $('#productImageUpdate').val(productUpdateEdit.productImage);
+                        console.log(productUpdateEdit.productImage);
+                        let unit = productUpdateEdit.productUnit == 1 ? "Yến" : productUpdateEdit.productUnit == 2 ? "Kg" : "Gram";
                         $('#productUnit').val(unit);
-                        let status = productEdit.productStatus.toString();
+                        let status = productUpdateEdit.productStatus.toString();
                         $('#productStatusUpdate').val(status);
-                        $('#categoryUpdate').val(productEdit.category.categoryId);
+                        $('#categoryUpdate').val(productUpdateEdit.categoryId);
+
 
                     } catch (e) {
                         console.error("Error parsing JSON response:", e);
@@ -692,6 +724,40 @@
             });
 
         });
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const myParam = urlParams.get('message');
+
+        if(myParam=="error"){
+            // document.getElementById("showModelMess").style.display='block';
+            // document.getElementById("showModelMess").style.display='block';
+            showToastDeleteError();
+            // window.location="categoryGetAllData";
+        }
+        if(myParam=="success"){
+            // document.getElementById("liveToastDeleteSuccess").style.display='block';
+            showToastDeleteSuccess();
+            // window.location="categoryGetAllData";
+        }
+
+        function showToastDeleteSuccess() {
+            let toastLiveShow = document.getElementById("liveToastDeleteSuccess");
+            let toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveShow);
+            toastBootstrap.show();
+            let autoCloseTimeout = 1000;
+            setTimeout(() => {
+                toastBootstrap.hide();
+            }, autoCloseTimeout);
+        }
+        function showToastDeleteError() {
+            let toastLiveShow = document.getElementById("liveToastDeleteError");
+            let toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveShow);
+            toastBootstrap.show();
+            let autoCloseTimeout = 1000;
+            setTimeout(() => {
+                toastBootstrap.hide();
+            }, autoCloseTimeout);
+        }
     });
 </script>
 

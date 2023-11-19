@@ -10,7 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Category</title>
+    <title>Account</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%--    bootstrap Link--%>
     <!-- Google Font: Source Sans Pro -->
@@ -48,7 +48,7 @@
     <link href="https://unpkg.com/bootstrap-table@1.21.0/dist/bootstrap-table.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link href="<%=request.getContextPath()%>/resources/css/category.css" rel="stylesheet"/>
+    <link href="<%=request.getContextPath()%>/resources/css/account.css" rel="stylesheet"/>
 
 
 </head>
@@ -161,7 +161,7 @@
                     </li>
                     <!--   Category -->
                     <li class="nav-item">
-                        <a href="<%=request.getContextPath()%>/accountController/accountGetAllData" class="nav-link">
+                        <a href="<%=request.getContextPath()%>/categoryController/categoryGetAllData" class="nav-link">
                             <i class="nav-icon fas fa-th"></i>
                             <p>
                                 Category
@@ -179,7 +179,7 @@
                     </li>
                     <!--  Bill -->
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="<%=request.getContextPath()%>/billController/billGetAllData" class="nav-link">
                             <i class="nav-icon fas fa-book"></i>
                             <p>
                                 Bill
@@ -235,7 +235,8 @@
                         </div>
                         <div class="col-2 ms-3">
                             <div>Sort By</div>
-                            <select class="form-select" aria-label="Default select example" id="sortBy" name="sortBy"
+                            <select class="form-select" aria-label="Default select example" id="sortByAccount"
+                                    name="sortBy"
                                     onchange="changeSortByAccount()">
                                 <option value="email" ${sortBy.equals("email")?'selected':''}>Email
                                 </option>
@@ -245,7 +246,7 @@
                         </div>
                         <div class="col-2 ms-5">
                             <div>Direction</div>
-                            <select class="form-select" aria-label="Default select example" id="direction"
+                            <select class="form-select" aria-label="Default select example" id="directionAccount"
                                     name="direction" onchange="changeDirectionAccount()">
                                 <option value="Default" ${direction.equals("ASC") && sortBy.equals("accId")?'selected':''}>
                                     Default
@@ -291,16 +292,22 @@
                                 <td>${account.accId}</td>
                                 <td>${account.email}</td>
                                 <td>${account.password}</td>
-                                <td><fmt:formatDate pattern="dd/MM/yyyy" value="${account.created}"></fmt:formatDate></td>
+                                <td><fmt:formatDate pattern="dd/MM/yyyy"
+                                                    value="${account.created}"></fmt:formatDate></td>
                                 <td>${account.role?"Admin":"Customer"}</td>
-                                <td>${account.accStatus?"Khóa":"Hoạt động"}</td>
+                                <td style="background-color: ${account.accStatus ? 'red' : 'white'};">
+                                    <span>${account.accStatus?"Inactive":"Active"}</span>
+                                </td>
                                 <td>
-                                    <a class="btn btn-outline-warning update" data-bs-toggle="modal" href="#updateData"><i
+                                    <a class="btn btn-outline-warning lock update" data-bs-toggle="modal"
+                                       href="#updateData"><i
                                             class="fa-solid fa-pen-to-square"></i></a>
+                                    <a class="btn btn-outline-danger lock" data-bs-toggle="modal" href="#lock"><i
+                                            class="fa-solid fa-lock"></i></a>
 
-                                    <a class="btn btn-outline-danger delete" data-bs-toggle="modal"
-                                       href="#deleteData"><i class="fa-solid fa-trash"></i></a>
-                                    <input type="hidden" id="caId" value="${account.accId}">
+                                    <a class="btn btn-outline-info unlock" data-bs-toggle="modal"
+                                       href="#unlock"><i class="fa-solid fa-unlock"></i></a>
+                                    <input type="hidden" id="accId" value="${account.accId}">
                                 </td>
                             </tr>
                         </c:forEach>
@@ -387,97 +394,149 @@
                         </div>
                     </div>
                     <%--    Modal Update Data--%>
-                    <div class="modal fade" id="updateData" tabindex="-1" aria-labelledby="updateDataModal"
+                    <div class="modal fade" id="updateData" tabindex="-1"
                          aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content modalSet">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="updateDataModal">Cập nhật tài khoản</h5>
+                                    <h5 class="modal-title">Cập nhật tài khoản</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                 </div>
-                                <div class="modal-body">
-                                    <form action="<%=request.getContextPath()%>/categoryController/update"
+                                <div class="modal-body text-center">
+                                    <form action="<%=request.getContextPath()%>/accountController/update"
                                           method="post">
                                         <div class="row groupRow">
                                             <div class="col-6">
-                                                <label for="accIdUpdate" class="fw-bold">Account ID</label>
-                                                <input type="text" id="accIdUpdate" name="accId"
+                                                <label for="accIdUpdateData" class="fw-bold">Account Id</label>
+                                                <input type="text" id="accIdUpdateData" name="accId"
                                                        class="form-control"
                                                        value="${account.accId}" readonly>
                                             </div>
                                             <div class="col-6">
-                                                <label for="emailUpdate" class="fw-bold">Email</label>
-                                                <input type="text" id="emailUpdate" name="email"
+                                                <label for="emailUpdateData" class="fw-bold">Email</label>
+                                                <input type="email" id="emailUpdateData" name="email"
                                                        class="form-control"
                                                        value="${account.email}">
                                             </div>
                                         </div>
-
                                         <div class="row groupRow">
                                             <div class="col-6">
-                                                <label for="passwordUpdate" class="fw-bold">Password</label>
-                                                <input type="text" id="passwordUpdate"
+                                                <label for="passwordUpdateData" class="fw-bold">Password</label>
+                                                <input type="text" id="passwordUpdateData"
                                                        name="password"
                                                        class="form-control" value="${account.password}">
                                             </div>
-                                            <div class="col-6">
-                                                <label for="createdUpdate" class="fw-bold">Created</label>
-                                                <input type="date" id="createdUpdate"
-                                                       name="created"
-                                                       class="form-control" value="${account.created}">
-                                            </div>
                                         </div>
-                                        <div class="row groupRow">
-                                            <div class="col-6">
-                                                <label for="roleUpdate" class="fw-bold">Role</label>
-                                                <input type="text" id="roleUpdate"
-                                                       name="role"
-                                                       class="form-control" value="${account.role}">
-                                            </div>
-                                            <div class="col-6">
-                                                <label for="accStatusUpdate" class="fw-bold">Status</label>
-                                                <select id="accStatusUpdate" name="accStatus" class="form-select">
-                                                    <option value="true" selected id="activeValue">Active</option>
-                                                    <option value="false">Inactive</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
+                                        <%--                                        <div class="row groupRow">--%>
+                                        <%--                                            <div class="col-6">--%>
+                                        <%--                                                <input type="hidden" name="accStatus" id="accStatusUpdateData" value="1">--%>
+                                        <%--                                            </div>--%>
+                                        <%--                                        </div>--%>
                                         <div class="modal-footer">
                                             <button type="submit" class="btn btn-success">Update</button>
                                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close
                                             </button>
                                         </div>
+
                                     </form>
                                 </div>
                             </div>
                         </div>
-                        <%--                    </div>--%>
-                        <%--                    &lt;%&ndash;    Modal Delete Data&ndash;%&gt;--%>
-                        <%--                    <div class="modal" id="deleteData">--%>
-                        <%--                        <div class="modal-dialog">--%>
-                        <%--                            <div class="modal-content modalSetDelete">--%>
-                        <%--                                <!-- Modal Header -->--%>
-                        <%--                                <div class="modal-header">--%>
-                        <%--                                    <h4 class="modal-title">Bạn có muốn xóa không?</h4>--%>
-                        <%--                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>--%>
-                        <%--                                </div>--%>
-                        <%--                                <!-- Modal body -->--%>
-                        <%--                                <div class="modal-body text-center">--%>
-                        <%--                                    <form action="<%=request.getContextPath()%>/categoryController/delete?">--%>
-                        <%--                                        <button type="submit" class="btn btn-danger">Delete</button>--%>
-                        <%--                                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">No--%>
-                        <%--                                        </button>--%>
-                        <%--                                        <input type="hidden" name="catalogIdDelete" id="catalogIdDelete" value="">--%>
-                        <%--                                    </form>--%>
-                        <%--                                </div>--%>
-                        <%--                                <div class="modal-footer">--%>
-                        <%--                                </div>--%>
 
-                        <%--                            </div>--%>
-                        <%--                        </div>--%>
-                        <%--                    </div>--%>
+                    </div>
+                    <%--    Modal Lock Data--%>
+                    <div class="modal fade" id="lock" tabindex="-1"
+                         aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content modalSetLock">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Bạn có muốn khóa tài khoản này không?</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body text-center">
+                                    <form action="<%=request.getContextPath()%>/accountController/lockAndUnlock"
+                                          method="post">
+                                        <div class="row groupRow">
+                                            <div class="col-6">
+                                                <input type="hidden" id="accIdUpdate" name="accId"
+                                                       class="form-control"
+                                                       value="${account.accId}" readonly>
+                                            </div>
+                                            <div class="col-6">
+                                                <input type="hidden" id="emailUpdate" name="email"
+                                                       class="form-control"
+                                                       value="${account.email}">
+                                            </div>
+                                        </div>
+                                        <div class="row groupRow">
+                                            <div class="col-6">
+                                                <input type="hidden" id="passwordUpdate"
+                                                       name="password"
+                                                       class="form-control" value="${account.password}">
+                                            </div>
+                                        </div>
+                                        <div class="row groupRow">
+                                            <div class="col-6">
+                                                <input type="hidden" name="accStatus" id="accStatusUpdate" value="1">
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-success btnYesClock me-3">Yes</button>
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No
+                                        </button>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <%--    Modal UnLock Data--%>
+                    <div class="modal fade" id="unlock" tabindex="-1"
+                         aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content modalSetUnLock">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Bạn có muốn khóa mở tài khoản này không?</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body text-center">
+                                    <form action="<%=request.getContextPath()%>/accountController/lockAndUnlock"
+                                          method="post">
+                                        <div class="row groupRow">
+                                            <div class="col-6">
+                                                <input type="hidden" id="accIdUpdateUnLock" name="accId"
+                                                       class="form-control"
+                                                       value="${account.accId}" readonly>
+                                            </div>
+                                            <div class="col-6">
+                                                <input type="hidden" id="emailUpdateUnLock" name="email"
+                                                       class="form-control"
+                                                       value="${account.email}">
+                                            </div>
+                                        </div>
+                                        <div class="row groupRow">
+                                            <div class="col-6">
+                                                <input type="hidden" id="passwordUpdateUnLock"
+                                                       name="password"
+                                                       class="form-control" value="${account.password}">
+                                            </div>
+                                        </div>
+                                        <div class="row groupRow">
+                                            <div class="col-6">
+                                                <input type="hidden" name="accStatus" id="accStatusUpdateUnLock"
+                                                       value="0">
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-success btnYesUnClock me-3">Yes</button>
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -542,30 +601,66 @@
 
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script>
-    <%--$('table .update').click(function () {--%>
-    <%--    console.log('Vào update dữ liệu');--%>
-    <%--    let getId = $(this).parent().find('#caId').val();--%>
-    <%--    $.ajax({--%>
-    <%--        type: 'GET',--%>
-    <%--        url: '<%=request.getContextPath()%>/categoryController/initUpdate?categoryId=' + getId,--%>
-    <%--        success: function (categoryEdit) {--%>
-    <%--            console.log("Ok");--%>
-    <%--            try {--%>
-    <%--                // Attempt to parse the JSON response--%>
-    <%--                // categoryEdit = JSON.parse(categoryEdit);--%>
-    <%--                $('#categoryIdUpdate').val(categoryEdit.categoryId);--%>
-    <%--                $('#categoryNameUpdate').val(categoryEdit.categoryName);--%>
-    <%--                $('#categoryDescriptionUpdate').val(categoryEdit.categoryDescription);--%>
-    <%--                let status = categoryEdit.categoryStatus.toString();--%>
-    <%--                $('#categoryStatusUpdate').val(status);--%>
+    $('table .lock').click(function () {
+        console.log('Vào update dữ liệu');
+        let getId = $(this).parent().find('#accId').val();
+        $.ajax({
+            type: 'GET',
+            url: '<%=request.getContextPath()%>/accountController/initUpdate?accId=' + getId,
+            success: function (accountEdit) {
+                console.log("Ok");
+                try {
+                    $('#accIdUpdate').val(accountEdit.accId);
+                    $('#emailUpdate').val(accountEdit.email);
+                    $('#passwordUpdate').val(accountEdit.password);
 
-    <%--            } catch (e) {--%>
-    <%--                console.error("Error parsing JSON response:", e);--%>
-    <%--            }--%>
+                } catch (e) {
+                    console.error("Error parsing JSON response:", e);
+                }
 
-    <%--        }--%>
-    <%--    })--%>
-    <%--});--%>
+            }
+        })
+    });
+    $('table .unLock').click(function () {
+        console.log('Vào update dữ liệu');
+        let getId = $(this).parent().find('#accId').val();
+        $.ajax({
+            type: 'GET',
+            url: '<%=request.getContextPath()%>/accountController/initUpdate?accId=' + getId,
+            success: function (accountEdit) {
+                console.log("Ok");
+                try {
+                    $('#accIdUpdateUnLock').val(accountEdit.accId);
+                    $('#emailUpdateUnLock').val(accountEdit.email);
+                    $('#passwordUpdateUnLock').val(accountEdit.password);
+
+                } catch (e) {
+                    console.error("Error parsing JSON response:", e);
+                }
+
+            }
+        })
+    });
+    $('table .update').click(function () {
+        console.log('Vào update dữ liệu');
+        let getId = $(this).parent().find('#accId').val();
+        $.ajax({
+            type: 'GET',
+            url: '<%=request.getContextPath()%>/accountController/initUpdate?accId=' + getId,
+            success: function (accountEdit) {
+                console.log("Ok");
+                try {
+                    $('#accIdUpdateData').val(accountEdit.accId);
+                    $('#emailUpdateData').val(accountEdit.email);
+                    $('#passwordUpdateData').val(accountEdit.password);
+
+                } catch (e) {
+                    console.error("Error parsing JSON response:", e);
+                }
+
+            }
+        })
+    });
 </script>
 
 <script src="<%=request.getContextPath()%>/resources/js/account.js" type="text/javascript"></script>

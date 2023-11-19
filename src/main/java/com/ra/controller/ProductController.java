@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.ra.model.Category;
 import com.ra.model.ImageProduct;
 import com.ra.model.Product;
+import com.ra.model.ProductUpdate;
 import com.ra.service.*;
 import com.ra.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.http.MediaType;
 
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -57,7 +59,7 @@ public class ProductController {
         //Lấy dữ liệu hiển thị
         List<Product> listProduct = productService.displayData(productNameAndTittleDefault, pageDefault - 1, SIZE,
                 directionDefault, sortByDefault);
-        List<Category> listCategory = categoryService.findAllDataByCategoryIdAndCategoryName();
+        List<Category> listCategory = categoryService.findAllDataByCategoryStatusIsTrue();
         //Số lượng trang =tổng bản ghi/SIZE
         totalPage = (int) Math.ceil((double) productService.getListPage(productNameAndTittleDefault) / SIZE);
         mav.addObject("listProduct", listProduct);
@@ -74,7 +76,7 @@ public class ProductController {
     public ModelAndView initCreateProduct() {
         Product proNew = new Product();
         //Lấy thông tin tất cả các danh mục
-        List<Category> listCategory = categoryService.findAllDataByCategoryIdAndCategoryName();
+        List<Category> listCategory = categoryService.findAllDataByCategoryStatusIsTrue();
         ModelAndView mav = new ModelAndView("productNew");
         mav.addObject("listCategory", listCategory);
         mav.addObject("proNew", proNew);
@@ -97,6 +99,7 @@ public class ProductController {
     @PostMapping(value = "/create")
     public String createProduct(Product product, MultipartFile productImage, MultipartFile[] otherImages) {
         String urlImage = uploadFileService.uploadFile(productImage);
+        product.setProductImageName(productImage.getOriginalFilename());
         product.setImage(urlImage);
         Product proNew = productService.save(product);
         if (proNew != null) {
@@ -175,12 +178,27 @@ public class ProductController {
     @GetMapping("/initUpdate")
     public ResponseEntity<?> initUpdate(@RequestParam(name = "productId") String productId) {
         Product productEdit = productService.findByProductId(productId);
+        ProductUpdate productUpdateEdit=new ProductUpdate();
+        productUpdateEdit.setProductId(productEdit.getProductId());
+        productUpdateEdit.setProductName(productEdit.getProductName());
+        productUpdateEdit.setPrice(productEdit.getPrice());
+        productUpdateEdit.setTittle(productEdit.getTittle());
+        productUpdateEdit.setProductDescription(productEdit.getProductDescription());
+        System.out.println("link image:"+productEdit.getImage());
+        productUpdateEdit.setImage(productEdit.getImage());
+        productUpdateEdit.setProductUnit(productEdit.getProductUnit());
+        productUpdateEdit.setProductStatus(productEdit.isProductStatus());
+        productUpdateEdit.setCategoryId(productEdit.getCategory().getCategoryId());
+        productUpdateEdit.setCategoryName(productEdit.getCategory().getCategoryName());
+
         //Chuyen du lieu tu java object sang JSON
-//        String json = new Gson().toJson(productEdit);
-//        HttpHeaders responseHeaders = new HttpHeaders();
-//        responseHeaders.set("Content-Type", "application/json");
-        return ResponseEntity.ok().body(productEdit);
-//        return new ResponseEntity<>(json, responseHeaders, HttpStatus.OK);
+//        String json = new Gson().toJson(productUpdateEdit);
+        String json = new Gson().toJson(productEdit);
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Content-Type", "application/json");
+        System.out.println("Ok Test");
+        return new ResponseEntity<>(json, responseHeaders, HttpStatus.OK);
     }
 
 
@@ -206,31 +224,32 @@ public class ProductController {
     }
 
     @PostMapping(value = "/delete")
-    public String deleteProduct(String productIdDelete) {
-        //Bước 1: gọi sang imageProductService thực hiện xóa ImageId theo productIdDelete
-//        boolean resultImageProduct = imageProductService.delete(productIdDelete);
-//        if (resultImageProduct) {
-//            boolean result = productService.delete(productIdDelete);
+    public String deleteProduct(Model model,@RequestParam String productIdDelete) {
+        String success = "success";
+        String error = "error";
+        Product product=productService.findByProductId(productIdDelete);
+//        if(product==null){
+//            return "error";
+//        }else{
+//
+//            boolean result = productService.delete(product);
 //            if (result) {
-//                //Bước 2: Nhận result và điều hướng sang trang hiển thị
 //                return "redirect:productGetAllData";
-//            }else {
+//            } else {
 //                return "error";
 //            }
-//        } else {
-//            return "error";
 //        }
-        Product product=productService.findByProductId(productIdDelete);
-        if(product==null){
-            return "error";
-        }else{
-            boolean result = productService.delete(product);
-            if (result) {
-                return "redirect:productGetAllData";
-            } else {
-                return "error";
+        if(product!=null){
+            if(product.getListBillDetail().size()>0){
+                boolean result = productService.delete(product);
+                if (result) {
+                    model.addAttribute("message", success);
+                } else {
+                    model.addAttribute("message", error);
+                }
             }
         }
+        return "redirect:productGetAllData";
     }
 
 

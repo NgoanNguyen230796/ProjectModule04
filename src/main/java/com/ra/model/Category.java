@@ -18,7 +18,7 @@ public class Category {
     //nếu categoryName là null hoặc là một chuỗi trống hoặc chỉ chứa các khoảng trắng,
     // thì việc xác thực sẽ không thành công và một lỗi tương thích thông báo sẽ được sinh ra.
     @NotBlank(message = "Không được để trống")
-    @Column(name = "category_name", unique = true,length = 150)
+    @Column(name = "category_name", unique = true, length = 150)
     private String categoryName;
 
     //Chỉ rằng thuộc tính categoryDescription là đối tượng lớn
@@ -27,10 +27,10 @@ public class Category {
     @Column(columnDefinition = "TEXT", name = "category_description")
     private String categoryDescription;
 
-    @Column(columnDefinition = "boolean default true",name = "category_status")
+    @Column(columnDefinition = "boolean default true", name = "category_status")
     private boolean categoryStatus;
 
-    @OneToMany(mappedBy = "category",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "category",fetch = FetchType.EAGER)
     private List<Product> listProduct;
 
     public Category() {

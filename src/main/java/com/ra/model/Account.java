@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "Account")
@@ -38,17 +39,20 @@ public class Account {
     @Column(name = "accStatus", columnDefinition = "BOOLEAN DEFAULT true")
     private boolean accStatus;
 
+    @OneToMany(mappedBy = "account",fetch = FetchType.EAGER)
+    private List<Bill> listBill;
+
     public Account() {
     }
 
-    public Account(int accId, String email, String password, Date created, boolean role, boolean accStatus) {
+    public Account(int accId, String email, String password, Date created, boolean role, boolean accStatus, List<Bill> listBill) {
         this.accId = accId;
         this.email = email;
         this.password = password;
         this.created = created;
         this.role = role;
         this.accStatus = accStatus;
-
+        this.listBill = listBill;
     }
 
     public int getAccId() {
@@ -97,5 +101,13 @@ public class Account {
 
     public void setAccStatus(boolean accStatus) {
         this.accStatus = accStatus;
+    }
+
+    public List<Bill> getListBill() {
+        return listBill;
+    }
+
+    public void setListBill(List<Bill> listBill) {
+        this.listBill = listBill;
     }
 }

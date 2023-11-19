@@ -2,11 +2,13 @@ package com.ra.controller;
 
 import com.google.gson.Gson;
 import com.ra.model.Category;
+import com.ra.model.CategoryUpdate;
 import com.ra.service.ICategoryService;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.http.HttpHeaders;
@@ -27,6 +29,8 @@ public class CategoryController {
     private static String sortByDefault = "categoryId";
     private static int PAGE = 1;
     private static int pageDefault = 1;
+//    private static String success="Xóa thành công";
+//    private static String error="Danh mục có chứa sản phẩm không thể xóa được";
 
     @GetMapping(value = "/categoryGetAllData")
     public ModelAndView getAllData(Optional<String> categoryNameSearch, Optional<Integer> page,
@@ -79,8 +83,9 @@ public class CategoryController {
     public ResponseEntity<String> initUpdate(int categoryId) {
         //Bước 1 :gọi sang CategoryService lấy thông tin sp theo categoryId
         Category categoryEdit = categoryService.findById(categoryId);
+        CategoryUpdate categoryUpdateEdit = new CategoryUpdate(categoryEdit.getCategoryId(), categoryEdit.getCategoryName(), categoryEdit.getCategoryDescription(), categoryEdit.isCategoryStatus());
         //Chuyen du lieu tu java object sang JSON
-        String json = new Gson().toJson(categoryEdit);
+        String json = new Gson().toJson(categoryUpdateEdit);
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Content-Type", "application/json");
         return new ResponseEntity<>(json, responseHeaders, HttpStatus.OK);
@@ -88,7 +93,6 @@ public class CategoryController {
 
     @PostMapping("/update")
     public String updateCategory(Category categoryEdit) {
-        //Bước 1:gọi sang studentService cập nhật thông tin sinh viên
         boolean result = categoryService.saveOrUpdate(categoryEdit);
         //Bước 2:nhận result và điều hướng sang trang hiển thị
         if (result) {
@@ -97,16 +101,46 @@ public class CategoryController {
             return "error";
         }
     }
+
     @GetMapping(value = "/delete")
-    public String deleteCategories(int catalogIdDelete) {
-        //Bước 1: gọi sang CategoriesService thực hiện xóa sp
+    public String deleteCategories(Model model, @RequestParam int catalogIdDelete) {
+        String success = "success";
+        String error = "error";
+        // Bước 1: Gọi sang CategoriesService thực hiện xóa sản phẩm
         boolean result = categoryService.delete(catalogIdDelete);
-        //Bước 2: Nhận result và điều hướng sang trang hiển thị
+        // Bước 2: Nhận result và điều hướng sang trang hiển thị
         if (result) {
-            return "redirect:categoryGetAllData";
+            // Trường hợp xóa thành công, thêm thông báo vào model
+            model.addAttribute("message", success);
         } else {
-            return "error";
+            model.addAttribute("message", error);
         }
+
+        // Trả về ModelAndView chứa dữ liệu và điều hướng đến trang category.jsp
+        return "redirect:categoryGetAllData";
     }
+
+//    @PostMapping(value = "/delete")
+//    public ModelAndView deleteCategories(@RequestParam int catalogIdDelete) {
+//        ModelAndView mav = new ModelAndView();
+//        mav.setViewName("redirect:/categoryController/categoryGetAllData");
+//
+////        if (categoryDeleteCheck.getListProduct().size() != 0) {
+////            model.addAttribute("message", error);
+////        } else {
+//        // Bước 1: Gọi sang CategoriesService thực hiện xóa sản phẩm
+//        boolean result = categoryService.delete(catalogIdDelete);
+//        // Bước 2: Nhận result và điều hướng sang trang hiển thị
+//        if (result) {
+//            // Trường hợp xóa thành công, thêm thông báo vào model
+//            mav.addObject("message", success);
+//
+//        }else{
+//            mav.addObject("message", error);
+//        }
+//
+//        return mav;
+//    }
+
 
 }

@@ -1,19 +1,19 @@
 function changeSortByAccount(){
-    let sortBy = document.getElementById("sortBy").value;
+    let sortByAccount = document.getElementById("sortByAccount").value;
     //Gọi controller
-    window.location="accountGetAllData?sortBy="+sortBy;
+    window.location="accountGetAllData?sortBy="+sortByAccount;
 }
 function changeDirectionAccount(){
-    let direction = document.getElementById("direction").value;
-    switch (direction) {
+    let directionAccount = document.getElementById("directionAccount").value;
+    switch (directionAccount) {
         case "Default":
             window.location="accountGetAllData?direction=ASC&sortBy=accId";
             break;
         case "ASC":
-            window.location="accountGetAllData?direction=" + direction;
+            window.location="accountGetAllData?direction=" + directionAccount;
             break;
         case "DESC":
-            window.location="accountGetAllData?direction=" + direction;
+            window.location="accountGetAllData?direction=" + directionAccount;
             break;
     }
 }

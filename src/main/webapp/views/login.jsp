@@ -33,22 +33,20 @@
                              class="img-fluid" alt="Phone image">
                     </div>
                     <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
-                        <form>
+                        <form action="<%=request.getContextPath()%>/loginController/login" method="post">
                             <!-- Email input -->
                             <div class="form-outline mb-4">
-                                <input type="email" id="form1Example13" class="form-control form-control-lg" placeholder="Email"/>
-
+                                <input type="email" id="email" name="email" class="form-control form-control-lg" placeholder="Email"/>
                             </div>
                             <!-- Password input -->
                             <div class="form-outline mb-4">
-                                <input type="password" id="form1Example23" class="form-control form-control-lg" placeholder="Password"/>
+                                <input type="password" id="password" name="password" class="form-control form-control-lg" placeholder="Password"/>
 <%--                                <label class="form-label" for="form1Example23">Password</label>--%>
                             </div>
-
+                            <div class="form-outline mb-4 text-danger">${messageError}</div>
                             <div class="d-grid gap-2 col-12 mx-auto">
-                                <button class="btn btn-info btn-lg btn-block text-white" type="button">Login</button>
+                                <button class="btn btn-info btn-lg btn-block text-white" type="submit">Login</button>
                             </div>
-
                         </form>
                     </div>
                 </div>

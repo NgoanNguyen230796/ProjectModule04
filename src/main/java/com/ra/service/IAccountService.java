@@ -8,8 +8,12 @@ import java.util.List;
 
 public interface IAccountService {
     List<Account> displayData(String emailSearch, int page, int size, String direction, String sortBy);
+    List<Account> getAllData();
+    List<Account> getAllDataByAccStatusTrue();
     int getListPage(String email);
     Account findById(int accId);
     boolean saveOrUpdate(Account account);
     boolean delete(int accId);
+
+
 }

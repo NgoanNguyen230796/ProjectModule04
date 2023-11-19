@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface IProductRepository extends JpaRepository<Product, String> {
 
@@ -25,4 +27,6 @@ public interface IProductRepository extends JpaRepository<Product, String> {
     Product findByProductId(@Param("productId") String productId);
 //    Product findByProductId(@Param("productId") String productId);
 
+    List<Product> findAll();
+    List<Product> findAllByProductStatusIsTrue();
 }

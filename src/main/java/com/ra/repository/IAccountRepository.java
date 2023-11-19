@@ -16,4 +16,6 @@ public interface IAccountRepository extends JpaRepository<Account,Integer> {
     Page<Account> findByEmail(String emailSearch, Pageable pageable);
     int countByEmailContains(String email);
     List<Account> findAll();
+
+    List<Account>findAllByAccStatusIsTrue();
 }

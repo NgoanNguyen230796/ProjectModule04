@@ -12,21 +12,22 @@ $('table .delete').click(function () {
 
 
 function changeSortByProduct(){
-    let sortBy = document.getElementById("sortBy").value;
+    let sortByProduct = document.getElementById("sortByProduct").value;
     //Gọi controller
-    window.location="productGetAllData?sortBy="+sortBy;
+    window.location="productGetAllData?sortBy="+sortByProduct;
 }
 function changeDirectionProduct(){
-    let direction = document.getElementById("direction").value;
-    switch (direction) {
+    let directionProduct = document.getElementById("directionProduct").value;
+    let sortByProduct = document.getElementById("sortByProduct").value;
+    switch (directionProduct) {
         // case "Default":
         //     window.location="categoryGetAllData?direction=ASC&sortBy=productId";
         //     break;
         case "ASC":
-            window.location="productGetAllData?direction=" + direction + "&sortBy=";
+            window.location="productGetAllData?direction=" + directionProduct + "&sortBy="+sortByProduct;
             break;
         case "DESC":
-            window.location="productGetAllData?direction=" + direction + "&sortBy=";
+            window.location="productGetAllData?direction=" + directionProduct + "&sortBy="+sortByProduct;
             break;
     }
     // window.location="productGetAllData?direction="+direction;

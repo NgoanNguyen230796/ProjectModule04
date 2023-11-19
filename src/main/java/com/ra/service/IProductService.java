@@ -1,5 +1,6 @@
 package com.ra.service;
 
+import com.ra.model.Account;
 import com.ra.model.Category;
 import com.ra.model.Product;
 
@@ -15,5 +16,8 @@ public interface IProductService {
     boolean update(Product product);
 
     boolean delete(Product product);
+
+    List<Product> getAllData();
+    List<Product> getAllDataByProductStatusIsTrue();
     
 }
