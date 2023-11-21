@@ -8,8 +8,8 @@
     height: 350px;
 }
 .modalSetDelete{
-    width:400px ;
-    height: 350px;
+    width: 400px;
+    height: 250px;
 }
 
 .modalSetUnLock, .modalSetLock{
@@ -27,4 +27,11 @@ a{
 ::placeholder { /* chạy tốt trên Chrome, Firefox, Opera, Safari 10.1+ */
     color: orange;
     opacity: 1; /* Firefox */
+}
+
+
+.btnStatusSet{
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 180px;
 }

@@ -1,5 +1,6 @@
 package com.ra.serviceImp;
 
+import com.ra.model.Account;
 import com.ra.model.Bill;
 import com.ra.model.Category;
 import com.ra.model.Product;
@@ -37,25 +38,21 @@ public class BillServiceImp implements IBillService {
         return billRepository.findById(billId).get();
     }
 
+
     @Override
-    public boolean update(Bill bill) {
+    public boolean saveOrUpdate(Bill bill) {
+        try {
+            billRepository.save(bill);
+            return true;
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
         return false;
     }
 
     @Override
     public boolean delete(String billId) {
         return false;
-    }
-
-    @Override
-    public Bill save(Bill bill) {
-        try {
-            Bill billNew = billRepository.save(bill);
-            return billNew;
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-        return null;
     }
 
     @Override
@@ -69,5 +66,31 @@ public class BillServiceImp implements IBillService {
             ex.printStackTrace();
         }
         return false;
+    }
+
+
+    @Override
+    public int statisticalBillWait() {
+        return billRepository.countByBillStatusWait();
+    }
+
+    @Override
+    public int statisticalBillApprove() {
+        return billRepository.countByBillStatusApprove();
+    }
+
+    @Override
+    public int statisticalBillDelivery() {
+        return billRepository.countByBillStatusDelivery();
+    }
+
+    @Override
+    public int statisticalBillReceived() {
+        return billRepository.countByBillStatusReceived();
+    }
+
+    @Override
+    public int statisticalBillCancel() {
+        return billRepository.countByBillStatusCancel();
     }
 }

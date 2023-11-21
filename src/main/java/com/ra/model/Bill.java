@@ -18,8 +18,8 @@ public class Bill {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", updatable = false)
     private Date created;
-    @Column(name = "bill_status", columnDefinition = "INTEGER DEFAULT 1")
-    private int billStatus;
+    @Column(name = "bill_status")
+    private int billStatus=1;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "acc_id", referencedColumnName = "acc_id")

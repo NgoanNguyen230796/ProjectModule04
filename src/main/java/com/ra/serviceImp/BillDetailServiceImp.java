@@ -46,4 +46,9 @@ public class BillDetailServiceImp implements IBillDetailService {
     public List<BillDetail> findDataByBillId(String billId) {
         return billDetailRepository.findAllDataByBill_BillId(billId);
     }
+
+    @Override
+    public BillDetail findByIdBillDetailId(long billDetailId) {
+        return billDetailRepository.findById(billDetailId).get();
+    }
 }

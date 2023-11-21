@@ -300,6 +300,7 @@
                         </nav>
                     </div>
                     <%--                        </c:otherwise>--%>
+
                     <%--                    </c:choose>--%>
 
                     <%--    Modal Create Data--%>

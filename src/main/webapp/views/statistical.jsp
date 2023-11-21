@@ -172,12 +172,13 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                <h1 class="text-center mt-2">Dashboard</h1>
+                <h1 class="text-center mt-2 dashboard">Dashboard</h1>
                 <div class="main">
                     <%--Statistical Account--%>
-                    <div class="d-flex justify-content-around">
+                    <div class="d-flex justify-content-around pb-5 pt-5">
                         <div class="col-12 col-sm-2 col-md-3">
-                            <h1 class="text-center mt-2">Thống kê tài khoản</h1>
+
+                            <h1 class="text-center mt-2"><a href="<%=request.getContextPath()%>/accountController/accountGetAllData?page=1" class="nav-link">Thống kê tài khoản </a></h1>
                         </div>
                         <div class="col-12 col-sm-5 col-md-3">
                             <div class="info-box mb-3">
@@ -203,11 +204,11 @@
                         </div>
                     </div>
                     <%--Statistical Product--%>
-                    <div class="d-flex justify-content-around">
+                    <div class="d-flex justify-content-between pb-5 pt-5">
                         <div class="col-md-4">
-                            <h1 class="text-center mt-2">Thống kê sản phẩm</h1>
+                            <h1 class="text-center mt-2"><a href="<%=request.getContextPath()%>/productController/productGetAllData?page=1" class="nav-link">Thống kê sản phẩm</a></h1>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-7 me-5">
                             <div class="info-box mb-3 bg-success">
                                 <span class="info-box-icon"><i class="fa-solid fa-inbox"></i></span>
 
@@ -231,9 +232,9 @@
                     </div>
 
                     <%--Statistical Bill--%>
-                    <div class="row">
+                    <div class="row pb-5 pt-5">
                         <div class="col-lg-12">
-                            <div class="card col-12 col-sm-2 col-lg-12 w-100 p-2">
+                            <div class="card col-12 col-sm-2 col-lg-12 w-100">
                                 <div class="card-header">
                                     <h3 class="card-title fs-2">Thống kê số lượng đơn hàng</h3>
                                 </div>
@@ -241,42 +242,42 @@
                                 <div class="card-footer p-4">
                                     <ul class="nav nav-pills flex-column">
                                         <li class="nav-item">
-                                            <a href="#" class="nav-link">
+                                            <a href="<%=request.getContextPath()%>/billController/billGetAllData?page=1" class="nav-link fs-5">
                                                 Bị Hủy
                                                 <span class="float-right text-danger">
-                        <i class="fas fa-arrow-down text-sm"></i>
-                        12%</span>
+                       <i class="fa-sharp fa-solid fa-arrow-right"></i>
+                        ${countByBillStatusCancel}</span>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="#" class="nav-link">
+                                            <a href="<%=request.getContextPath()%>/billController/billGetAllData?page=1" class="nav-link fs-5">
                                                 Đang chờ
-                                                <span class="float-right text-success">
-                        <i class="fas fa-arrow-up text-sm"></i> 4%
+                                                <span class="float-right text-warning">
+                       <i class="fa-sharp fa-solid fa-arrow-right"></i> ${countByBillStatusWait}
                       </span>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="#" class="nav-link">
+                                            <a href="<%=request.getContextPath()%>/billController/billGetAllData?page=1" class="nav-link fs-5">
                                                 Đã được duyệt
-                                                <span class="float-right text-warning">
-                        <i class="fas fa-arrow-left text-sm"></i> 0%
+                                                <span class="float-right text-success">
+                       <i class="fa-sharp fa-solid fa-arrow-right"></i> ${countByBillStatusApprove}
                       </span>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="#" class="nav-link">
+                                            <a href="<%=request.getContextPath()%>/billController/billGetAllData?page=1" class="nav-link fs-5">
                                                 Đang giao hàng
-                                                <span class="float-right text-warning">
-                        <i class="fas fa-arrow-left text-sm"></i> 0%
+                                                <span class="float-right text-primary">
+                      <i class="fa-sharp fa-solid fa-arrow-right"></i>  ${countByBillStatusDelivery}
                       </span>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="#" class="nav-link">
+                                            <a href="<%=request.getContextPath()%>/billController/billGetAllData?page=1" class="nav-link fs-5">
                                                 Đã nhận hàng
-                                                <span class="float-right text-warning">
-                        <i class="fas fa-arrow-left text-sm"></i> 0%
+                                                <span class="float-right text-info">
+                       <i class="fa-sharp fa-solid fa-arrow-right"></i> ${countByBillStatusReceived}
                       </span>
                                             </a>
                                         </li>
@@ -287,7 +288,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row pb-5 pt-5">
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-header border-0">
@@ -308,21 +309,18 @@
                                             <th>Ngày</th>
                                             <th>Tháng</th>
                                             <th>Năm</th>
+                                            <th>Doanh thu</th>
+
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr>
                                             <td>
-                                                <img src="dist/img/default-150x150.png" alt="Product 1"
-                                                     class="img-circle img-size-32 mr-2">
                                                 Some Product
                                             </td>
                                             <td>$13 USD</td>
                                             <td>
-                                                <small class="text-success mr-1">
-                                                    <i class="fas fa-arrow-up"></i>
-                                                    12%
-                                                </small>
+
                                                 12,000 Sold
                                             </td>
                                             <td>
@@ -333,16 +331,13 @@
                                         </tr>
                                         <tr>
                                             <td>
-                                                <img src="dist/img/default-150x150.png" alt="Product 1"
-                                                     class="img-circle img-size-32 mr-2">
+
                                                 Another Product
                                             </td>
                                             <td>$29 USD</td>
                                             <td>
-                                                <small class="text-warning mr-1">
-                                                    <i class="fas fa-arrow-down"></i>
-                                                    0.5%
-                                                </small>
+
+
                                                 123,234 Sold
                                             </td>
                                             <td>
@@ -353,16 +348,12 @@
                                         </tr>
                                         <tr>
                                             <td>
-                                                <img src="dist/img/default-150x150.png" alt="Product 1"
-                                                     class="img-circle img-size-32 mr-2">
+
                                                 Amazing Product
                                             </td>
                                             <td>$1,230 USD</td>
                                             <td>
-                                                <small class="text-danger mr-1">
-                                                    <i class="fas fa-arrow-down"></i>
-                                                    3%
-                                                </small>
+
                                                 198 Sold
                                             </td>
                                             <td>
@@ -373,17 +364,13 @@
                                         </tr>
                                         <tr>
                                             <td>
-                                                <img src="dist/img/default-150x150.png" alt="Product 1"
-                                                     class="img-circle img-size-32 mr-2">
+
                                                 Perfect Item
                                                 <span class="badge bg-danger">NEW</span>
                                             </td>
                                             <td>$199 USD</td>
                                             <td>
-                                                <small class="text-success mr-1">
-                                                    <i class="fas fa-arrow-up"></i>
-                                                    63%
-                                                </small>
+
                                                 87 Sold
                                             </td>
                                             <td>

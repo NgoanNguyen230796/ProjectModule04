@@ -105,19 +105,6 @@
         </a>
         <!-- Sidebar -->
         <div class="sidebar">
-            <!-- Sidebar user panel (optional) -->
-            <%--            <div class="user-panel mt-3 pb-3 mb-3 d-flex">--%>
-            <%--                <div class="image">--%>
-            <%--                    <img src="<%=request.getContextPath()%>/resources/dist/img/Ngoan.jpg" alt="User Image"--%>
-            <%--                         style="height:50px;width:50px"/>--%>
-            <%--                </div>--%>
-            <%--                <div class="info">--%>
-            <%--                    <span class="brand-text font-weight-light">Admin</span>--%>
-            <%--                </div>--%>
-            <%--            </div>--%>
-
-            <!-- SidebarSearch Form -->
-            <!-- Sidebar Menu -->
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                     data-accordion="false">
@@ -158,7 +145,6 @@
                             </p>
                         </a>
                     </li>
-
                     <!--  Account -->
                     <li class="nav-item">
                         <a href="<%=request.getContextPath()%>/accountController/accountGetAllData" class="nav-link">
@@ -184,11 +170,10 @@
         <section class="content">
             <div class="container-fluid">
                 <h1></h1>
-                <h1 class="text-center mt-2">Hóa Đơn</h1>
+                <h1 class="text-center mt-2">Bill</h1>
                 <div class="main">
                     <div class="d-flex justify-content-center">
                         <div class="col-4 mt-4">
-
                             <form class="d-flex"
                                   action="<%=request.getContextPath()%>/billController/billGetAllData"
                                   method="get">
@@ -223,23 +208,7 @@
                                 New
                                 Bill</a>
                         </div>
-                        <%--                                                <div class="createDataButton">--%>
-                        <%--                                                    &lt;%&ndash;            <a type="button" class="btn btn-success" href="<%=request.getContextPath()%>/productController/initCreate">Create New Product</a>&ndash;%&gt;--%>
-                        <%--                                                    <a type="button" class="btn btn-outline-success mb-3" data-bs-toggle="modal"--%>
-                        <%--                                                       href="#createData">Create--%>
-                        <%--                                                        New--%>
-                        <%--                                                        Bill Detail</a>--%>
-                        <%--                                                </div>--%>
                     </div>
-                    <%--                    <c:choose>--%>
-                    <%--                        <c:when test="${empty listBill}">--%>
-                    <%--                            <div class="listEmty">--%>
-                    <%--                                <h4 class="text-center">Không tìm thấy kết quả</h4>--%>
-                    <%--                            </div>--%>
-                    <%--                        </c:when>--%>
-                    <%--                        <c:otherwise>--%>
-
-
                     <table class="table table-bordered table-hover text-center">
                         <thead>
                         <tr>
@@ -257,22 +226,26 @@
                                 <td>${bill.account.email}</td>
                                 <td><fmt:formatDate pattern="dd/MM/yyyy"
                                                     value="${bill.created}"></fmt:formatDate></td>
-                                <td>${bill.billStatus==0?"Đang chờ":bill.billStatus==1?"Đã được duyệt":bill.billStatus==2?"Đang giao hàng":"Đã nhận hàng"}</td>
+                                <td style="display: block;text-align: center;">
+                                    <button type="button"
+                                            class="btn ${bill.billStatus==1?'btn-warning':bill.billStatus==2?'btn-success':
+                                            bill.billStatus==3?'btn-primary':bill.billStatus==4?'btn-info':'btn-danger'}
+                                             btnStatusSet">${bill.billStatus==1?"Đang chờ":bill.billStatus==2?"Đã được duyệt":bill.billStatus==3?
+                                            "Đang giao hàng":bill.billStatus==4?"Đã nhận hàng":"Hủy"}</button>
+                                </td>
                                 <td>
-<%--                                    <a class="btn btn-outline-warning show" id="isCheck"--%>
-<%--                                       href="<%=request.getContextPath()%>/billController/initCreate?billId=${bill.billId}"><i--%>
-<%--                                            class="fa-sharp fa-solid fa-file-invoice-dollar"></i></a>--%>
-
                                     <a class="btn btn-outline-warning show" id="isCheck" data-bs-toggle="modal"
                                        href="#detailForm"><i
                                             class="fa-sharp fa-solid fa-file-invoice-dollar"></i></a>
                                     <a class="btn btn-outline-danger show"
-                                       href="<%=request.getContextPath()%>/billDetailController/billDetail?billId=${bill.billId}"><i class="fa-solid fa-tv"></i></a>
-                                    <a class="btn btn-outline-warning update"><i
+                                       href="<%=request.getContextPath()%>/billDetailController/billDetail?billId=${bill.billId}"><i
+                                            class="fa-solid fa-tv"></i></a>
+                                    <a class="btn btn-outline-warning update" data-bs-toggle="modal" href="#updateData"><i
                                             class="fa-solid fa-pen-to-square"></i></a>
-                                        <%--                                            <a class="btn btn-warning update" href="<%=request.getContextPath()%>/categoryController/initUpdate?categoryId=${category.categoryId}">Update</a>--%>
-                                    <a class="btn btn-outline-danger delete" data-bs-toggle="modal"
-                                       href="#deleteData"><i class="fa-solid fa-trash"></i></a>
+<%--                                    <a class="btn btn-outline-danger cancel" data-bs-toggle="modal"--%>
+<%--                                       href="#cancel"><i class="fa-solid fa-xmark"></i></a>--%>
+                                    <a class="btn btn-outline-danger cancel" data-bs-toggle="modal"
+                                       href="#cancelData"><i class="fa-solid fa-xmark"></i></a>
                                     <input type="hidden" id="biId" value="${bill.billId}">
                                 </td>
                             </tr>
@@ -318,18 +291,15 @@
                                     </c:choose>
                                 </li>
                             </ul>
-
                         </nav>
                     </div>
-                    <%--                        </c:otherwise>--%>
-                    <%--                    </c:choose>--%>
-                    <%--  Create Bill--%>
-                    <div class="modal fade" id="createData" tabindex="-1" aria-labelledby="createDataModal"
+                    <%--                    Create Bill--%>
+                    <div class="modal fade" id="createData" tabindex="-1"
                          aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content modalSet">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="createDataModal">Thêm mới Bill</h5>
+                                    <h5 class="modal-title">Thêm mới Bill</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                 </div>
@@ -362,8 +332,7 @@
                             </div>
                         </div>
                     </div>
-
-                    <%--  Create Bill Detail--%>
+                    <%--                    Create Bill Detail--%>
                     <div class="modal fade" id="detailForm" tabindex="-1"
                          aria-hidden="true">
                         <div class="modal-dialog">
@@ -411,40 +380,147 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Alert delete success -->
-                        <div class="toast-container position-absolute top-0 start-50 mt-5">
-                            <div id="liveToastDeleteSuccess" class="toast bg-success" role="alert" aria-live="assertive"
-                                 aria-atomic="true" style="width:290px;height:100px;">
-                                <div class="toast-header"></div>
-                                <div class="toast-body text-light fs-5">
-                                    Bạn đã xóa thành công
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Alert delete error -->
-                        <div class="toast-container position-absolute top-0 start-50 mt-5">
-                            <div id="liveToastDeleteError" class="toast bg-danger" role="alert" aria-live="assertive"
-                                 aria-atomic="true" style="width:500px;height:100px;">
-                                <div class="toast-header"></div>
-                                <div class="toast-body text-light fs-5">
-                                    Trong danh mục có chứa sản phẩm,rất tiếc không thể xóa
-                                </div>
-                            </div>
-                        </div>
 
                     </div>
+                    <%--                    Update Bill--%>
+                    <div class="modal fade" id="updateData" tabindex="-1"
+                         aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content modalSet">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Cập nhật Bill</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="<%=request.getContextPath()%>/billController/updateBill"
+                                          method="post">
+                                        <div class="row groupRow">
+                                            <input type="hidden" id="billIdUpdate" name="billId"
+                                                   class="form-control">
+                                            <div class="col-6">
+                                                <label for="accountUpdate" class="fw-bold">Email</label>
+                                                <select id="accountUpdate" name="account.accId" class="form-select">
+                                                    <c:forEach items="${listAccount}" var="account">
+                                                        <option value="${account.accId}">${account.email}</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+                                            <div class="col-6">
+                                                <label for="status" class="fw-bold">Bill
+                                                    Status</label>
+                                                <select id="status" name="billStatus" class="form-select">
+                                                    <option value="1" selected>Đang chờ</option>
+                                                    <option value="2">Đã được duyệt</option>
+                                                    <option value="3">Đang giao hàng</option>
+                                                    <option value="4">Đã nhận hàng</option>
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-success">Update</button>
+                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <%--                    Cancel--%>
+                    <%--                    <div class="modal" id="cancel">--%>
+                    <%--                        <div class="modal-dialog">--%>
+                    <%--                            <div class="modal-content modalSetDelete">--%>
+                    <%--                                <div class="modal-header">--%>
+                    <%--                                    <h4 class="modal-title">Bạn có muốn hủy Bill không?</h4>--%>
+                    <%--                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>--%>
+                    <%--                                </div>--%>
+                    <%--                                <!-- Modal body -->--%>
+                    <%--                                <div class="modal-body text-center">--%>
+                    <%--                                    <form action="<%=request.getContextPath()%>/billController/cancel"--%>
+                    <%--                                          method="post">--%>
+                    <%--                                        <div class="row groupRow">--%>
+                    <%--                                            <input type="hidden" id="billIdCancel" name="billId"--%>
+                    <%--                                                   class="form-control">--%>
+                    <%--                                            <div class="col-6">--%>
+                    <%--                                                <input type="hidden" id="accountCancel" name="account.accId"--%>
+                    <%--                                                       class="form-control">--%>
+                    <%--                                            </div>--%>
+                    <%--                                            <div class="col-6">--%>
+                    <%--                                                <input type="hidden" id="statusCancel" name="billStatus"--%>
+                    <%--                                                       class="form-control" value="5">--%>
+                    <%--                                            </div>--%>
+                    <%--                                        </div>--%>
+                    <%--                                        <div class="modal-footer">--%>
+                    <%--                                            <button type="submit" class="btn btn-danger" id="btnDelete">Yes</button>--%>
+                    <%--                                            <button type="button" class="btn btn-success" data-bs-dismiss="modal">No--%>
+                    <%--                                            </button>--%>
+                    <%--                                            <input type="hidden" name="cancelId" id="cancelId" value="">--%>
+                    <%--                                        </div>--%>
+                    <%--                                    </form>--%>
+
+                    <%--                                </div>--%>
+                    <%--                                <div class="modal-footer">--%>
+                    <%--                                </div>--%>
+                    <%--                            </div>--%>
+                    <%--                        </div>--%>
+                    <%--                    </div>--%>
+
+                    <%--    Modal cancelData--%>
+                    <div class="modal" id="cancelData">
+                        <div class="modal-dialog">
+                            <div class="modal-content modalSetDelete">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Bạn có muốn hủy đơn không?</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="modal-body text-center">
+                                    <form action="<%=request.getContextPath()%>/billController/cancel?">
+                                        <button type="submit" class="btn btn-danger" id="btnDelete">Yes</button>
+                                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">No
+                                        </button>
+                                        <input type="hidden" name="billIdCancel" id="billIdCancel" value="">
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Alert delete success -->
+                    <div class="toast-container position-absolute top-0 start-50 mt-5">
+                        <div id="liveToastCancelSuccess" class="toast bg-success" role="alert" aria-live="assertive"
+                             aria-atomic="true" style="width:290px;height:100px;">
+                            <div class="toast-header"></div>
+                            <div class="toast-body text-light fs-5">
+                                Bạn đã hủy đơn hàng thành công
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Alert delete error -->
+                    <div class="toast-container position-absolute top-0 start-50 mt-5">
+                        <div id="liveToastCancelError" class="toast bg-danger" role="alert" aria-live="assertive"
+                             aria-atomic="true" style="width:500px;height:100px;">
+                            <div class="toast-header"></div>
+                            <div class="toast-body text-light fs-5">
+                                Rất tiếc trạng thái đơn hàng không phải là trạng thái chờ,không thể hủy đơn
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 
                 </div>
-            </div>
+
         </section>
         <!-- /.content -->
     </div>
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
 <!-- jQuery -->
@@ -492,62 +568,60 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
-<!-- AdminLTE for demo purposes -->
-<%--<script src="<%=request.getContextPath()%>/resources/dist/js/demo.js" type="text/javascript"></script>--%>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('table .update').click(function () {
+            console.log('Vào update dữ liệu');
+            let getId = $(this).parent().find('#biId').val();
+            $.ajax({
+                type: 'GET',
+                url: '<%=request.getContextPath()%>/billController/initUpdate?billId=' + getId,
+                success: function (billInitUpdate) {
+                    console.log("Ok");
+                    try {
+                        $('#billIdUpdate').val(billInitUpdate.billId);
+                        $('#accountUpdate').val(billInitUpdate.accId);
+                        $('#status').val(billInitUpdate.billStatus);
+                    } catch (e) {
+                        console.error("Error parsing JSON response:", e);
+                    }
 
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script>
-    $('table .update').click(function () {
-        console.log('Vào update dữ liệu');
-        let getId = $(this).parent().find('#biId').val();
-        $.ajax({
-            type: 'GET',
-            url: '<%=request.getContextPath()%>/categoryController/initUpdate?categoryId=' + getId,
-            success: function (categoryUpdateEdit) {
-                console.log("Ok");
-                try {
-                    $('#categoryIdUpdate').val(categoryUpdateEdit.categoryId);
-                    $('#categoryNameUpdate').val(categoryUpdateEdit.categoryName);
-                    $('#categoryDescriptionUpdate').val(categoryUpdateEdit.categoryDescription);
-                    let status = categoryUpdateEdit.categoryStatus.toString();
-                    $('#categoryStatusUpdate').val(status);
-
-                } catch (e) {
-                    console.error("Error parsing JSON response:", e);
                 }
+            });
+        });
+        <%--$('table .cancel').click(function () {--%>
+        <%--    console.log('Vào update dữ liệu');--%>
+        <%--    let getId = $(this).parent().find('#biId').val();--%>
+        <%--    $.ajax({--%>
+        <%--        type: 'GET',--%>
+        <%--        url: '<%=request.getContextPath()%>/billController/initUpdate?billId=' + getId,--%>
+        <%--        success: function (billInitUpdate) {--%>
+        <%--            console.log("Ok");--%>
+        <%--            try {--%>
+        <%--                $('#billIdCancel').val(billInitUpdate.billId);--%>
+        <%--                $('#accountCancel').val(billInitUpdate.accId);--%>
 
-            }
-        })
+        <%--            } catch (e) {--%>
+        <%--                console.error("Error parsing JSON response:", e);--%>
+        <%--            }--%>
+
+        <%--        }--%>
+        <%--    })--%>
+        <%--});--%>
     });
 
-    <%--document.addEventListener("DOMContentLoaded", function() {--%>
-    <%--    let btnDelete = document.getElementById("btnDelete");--%>
-    <%--    btnDelete.addEventListener("click", function(e) {--%>
-    <%--        e.preventDefault();--%>
-    <%--        if(${message.equals("error")}){--%>
-    <%--            console.log("Không th xóa ");--%>
-    <%--        }else{--%>
-    <%--            console.log("Xóa thành công");--%>
-    <%--        }--%>
-    <%--    });--%>
-    <%--});--%>
 
     const urlParams = new URLSearchParams(window.location.search);
-    const myParam = urlParams.get('messageInit');
-
-    if (myParam == "error") {
-        // document.getElementById("showModelMess").style.display='block';
-        // document.getElementById("showModelMess").style.display='block';
-        showToastDeleteError();
-        // window.location="categoryGetAllData";
+    const myParam = urlParams.get('message');
+    if (myParam == "errorCancel") {
+        showToastCancelError();
     }
-    if (myParam == "success") {
-        showToastDeleteSuccess();
-        // window.location="categoryGetAllData";
+    if (myParam == "successCancel") {
+        showToastCancelSuccess();
     }
 
-    function showToastDeleteSuccess() {
-        let toastLiveShow = document.getElementById("liveToastDeleteSuccess");
+    function showToastCancelSuccess() {
+        let toastLiveShow = document.getElementById("liveToastCancelSuccess");
         let toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveShow);
         toastBootstrap.show();
         let autoCloseTimeout = 1000;
@@ -556,40 +630,18 @@
         }, autoCloseTimeout);
     }
 
-    function showToastDeleteError() {
-        let toastLiveShow = document.getElementById("liveToastDeleteError");
+    function showToastCancelError() {
+        let toastLiveShow = document.getElementById("liveToastCancelError");
         let toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveShow);
         toastBootstrap.show();
         let autoCloseTimeout = 1000;
         setTimeout(() => {
             toastBootstrap.hide();
         }, autoCloseTimeout);
-
     }
-
-
-    // const urlParamsInit = new URLSearchParams(window.location.search);
-    // const myParamInit = urlParams.get('messageInit');
-    // let showDetailForm = new bootstrap.Modal(
-    //     document.getElementById("detailForm"),
-    //     {
-    //         keyboard: false,
-    //
-    //     }
-    // );
-    // if (myParam == "successInit") {
-    //
-    //     showDetailForm.show();
-    // }
-    // if (myParam == "errorInit") {
-    //     showToastDeleteError();
-    //     // window.location="categoryGetAllData";
-    // }
-
-
-
 
 </script>
+
 <script src="<%=request.getContextPath()%>/resources/js/bill.js" type="text/javascript"></script>
 </body>
 </html>

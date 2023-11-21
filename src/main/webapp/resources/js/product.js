@@ -1,8 +1,11 @@
 $('#createDataModal').on('hidden.bs.modal', function (e) {
-    $('#categoryId').val('');
-    $('#categoryName').val('');
-    $('#categoryDescription').val('');
-    $('#categoryStatus').val('true');
+    $('#productId').val('');
+    $('#productName').val('');
+    $('#price').val('');
+    $('#tittle').val('');
+    $('#productDescription').val('');
+    $('#productUnit').val('1');
+    $('#productStatus').val('true');
 
 });
 $('table .delete').click(function () {

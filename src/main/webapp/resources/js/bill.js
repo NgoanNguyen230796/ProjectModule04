@@ -22,3 +22,15 @@ $('table .show').click(function () {
     let getId = $(this).parent().find('#biId').val();
     $('#billIdOfBillDetail').val(getId);
 });
+
+$('#createData').on('hidden.bs.modal', function (e) {
+    $('#billId').val('');
+    $('#account').val('');
+
+});
+
+$('table .cancel').click(function () {
+    let getId = $(this).parent().find('#biId').val();
+    // $('#cancelId').val(getId);
+    $('#billIdCancel').val(getId);
+});

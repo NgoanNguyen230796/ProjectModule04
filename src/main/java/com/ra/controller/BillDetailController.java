@@ -1,11 +1,13 @@
 package com.ra.controller;
 
-import com.ra.model.Account;
-import com.ra.model.Bill;
-import com.ra.model.BillDetail;
+import com.google.gson.Gson;
+import com.ra.model.*;
 import com.ra.service.IBillDetailService;
 import com.ra.service.IBillService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,4 +34,16 @@ public class BillDetailController {
         mav.addObject("listBillDetail",listBillDetail);
         return mav;
     }
+
+//    @GetMapping("/initUpdate")
+//    public ResponseEntity<String> initUpdate(long billDetailId) {
+//        //Bước 1 :gọi sang CategoryService lấy thông tin sp theo categoryId
+//        BillDetail billDetailEdit = billDetailService.findByIdBillDetailId(billDetailId);
+//        BillAndBillDetailUpdate billAndBillDetailUpdate=new BillAndBillDetailUpdate(billDetailEdit.getBillDetailId(),billDetailEdit.getBill().getBillId(),billDetailEdit.getA);
+//        //Chuyen du lieu tu java object sang JSON
+//        String json = new Gson().toJson(accountUpdate);
+//        HttpHeaders responseHeaders = new HttpHeaders();
+//        responseHeaders.set("Content-Type", "application/json");
+//        return new ResponseEntity<>(json, responseHeaders, HttpStatus.OK);
+//    }
 }

@@ -12,6 +12,7 @@ public interface IBillDetailService {
     boolean update(BillDetail billDetail);
     boolean delete(int billDetailId);
     BillDetail findById(String billId);
+    BillDetail findByIdBillDetailId(long billDetailId);
 
     List<BillDetail> findDataByBillId(String billId);
 

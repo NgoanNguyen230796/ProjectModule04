@@ -1,6 +1,7 @@
 package com.ra.controller;
 
 import com.ra.service.IAccountService;
+import com.ra.service.IBillService;
 import com.ra.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,20 +16,38 @@ public class StatisticalController {
     private IAccountService accountService;
     @Autowired
     private IProductService productService;
+    @Autowired
+    private IBillService billService;
+
     @GetMapping(value = "/statisticalData")
     public ModelAndView getAllData() {
 
         ModelAndView mav = new ModelAndView("statistical");
-       int accActive=accountService.statisticalAccountActive();
-       int accInActive=accountService.statisticalAccountInActive();
-       int productActive=productService.statisticalProductActive();
-       int productInActive=productService.statisticalProductInActive();
+        int accActive = accountService.statisticalAccountActive();
+        int accInActive = accountService.statisticalAccountInActive();
+
+        int productActive = productService.statisticalProductActive();
+        int productInActive = productService.statisticalProductInActive();
+
+
+        int countByBillStatusWait = billService.statisticalBillWait();
+        int countByBillStatusApprove = billService.statisticalBillApprove();
+        int countByBillStatusDelivery = billService.statisticalBillDelivery();
+        int countByBillStatusReceived = billService.statisticalBillReceived();
+        int countByBillStatusCancel = billService.statisticalBillCancel();
 
         //Số lượng trang =tổng bản ghi/SIZE
         mav.addObject("accActive", accActive);
         mav.addObject("accInActive", accInActive);
+
         mav.addObject("productActive", productActive);
         mav.addObject("productInActive", productInActive);
+
+        mav.addObject("countByBillStatusWait", countByBillStatusWait);
+        mav.addObject("countByBillStatusApprove", countByBillStatusApprove);
+        mav.addObject("countByBillStatusDelivery", countByBillStatusDelivery);
+        mav.addObject("countByBillStatusReceived", countByBillStatusReceived);
+        mav.addObject("countByBillStatusCancel", countByBillStatusCancel);
         return mav;
     }
 }

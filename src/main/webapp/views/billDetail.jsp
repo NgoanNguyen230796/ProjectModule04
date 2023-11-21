@@ -184,7 +184,11 @@
                 <h1></h1>
                 <h1 class="text-center mt-2">Chi tiết Bill Detail</h1>
                 <div class="main">
-                    <div class="d-flex justify-content-center flex-column bd-highlight">
+                    <div class="createDataButton">
+                        <a type="button" class="btn btn-outline-success mb-3"
+                           href="<%=request.getContextPath()%>/billController/billGetAllData?page=1">Quay lại trang Bill</a>
+                    </div>
+                    <div>
                         <c:choose>
                             <c:when test="${empty listBillDetail}">
                                 <div class="listEmty">
@@ -192,7 +196,7 @@
                                 </div>
                             </c:when>
                             <c:otherwise>
-                                <div class="col-md-9">
+                                <div class="col-12">
                                     <!-- Widget: user widget style 1 -->
                                     <div class="card card-widget widget-user">
                                         <!-- Add the bg color to the header using any of the bg-* classes -->
@@ -224,7 +228,7 @@
                                                 <div class="col-sm-4">
                                                     <div class="description-block">
                                                         <h5 class="description-header" style="font-size: 40px;">Status</h5>
-                                                        <span>${bill.account.accStatus}</span>
+                                                        <span>${bill.account.accStatus?"Hoạt động":"Khóa"}</span>
                                                     </div>
                                                     <!-- /.description-block -->
                                                 </div>
@@ -235,8 +239,7 @@
                                     </div>
                                     <!-- /.widget-user -->
                                 </div>
-
-                                <div class="col-md-9">
+                                <div class="col-12">
                                     <table class="table table-bordered table-hover text-center">
                                         <thead>
                                         <tr>
@@ -258,25 +261,118 @@
                                                 <td>${detail.total}</td>
                                                 <td>
                                                     <a class="btn btn-outline-warning update" data-bs-toggle="modal"
-                                                       href="#updateData"><i
+                                                       href="#updateDetailForm"><i
                                                             class="fa-solid fa-pen-to-square"></i></a>
                                                     <a class="btn btn-outline-danger delete" data-bs-toggle="modal"
-                                                       href="#deleteData"><i class="fa-solid fa-trash"></i></a>
-                                                    <input type="hidden" id="caId" value="${detail.billDetailId}">
+                                                       href="#deleteDetailForm"><i class="fa-solid fa-trash"></i></a>
+                                                    <input type="hidden" id="biDetailId" value="${detail.billDetailId}">
                                                 </td>
                                             </tr>
                                         </c:forEach>
                                         </tbody>
                                     </table>
                                 </div>
+                                <%--    Modal Update Data--%>
+                                <div class="modal fade" id="updateDetailForm" tabindex="-1"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content modalSet">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Update Bill Detail</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="<%=request.getContextPath()%>/billController/createBillDetail"
+                                                      method="post">
+                                                    <div class="row groupRow">
+                                                        <input type="hidden" id="billIdOfBillDetail" name="billId" value=""
+                                                               class="form-control">
+                                                        <div class="col-6">
+                                                            <label for="productId" class="fw-bold">Product Name</label>
+                                                            <select id="productId" name="productId" class="form-select">
+                                                                <c:forEach items="${listProduct}" var="product">
+                                                                    <option value="${product.productId}">${product.productName}</option>
+                                                                </c:forEach>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <label for="price" class="fw-bold">Price</label>
+                                                            <input type="number" id="price" name="price"
+                                                                   class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row groupRow">
+                                                        <div class="col-6">
+                                                            <label for="quantity" class="fw-bold">Quantity</label>
+                                                            <input type="number" id="quantity" name="quantity"
+                                                                   class="form-control">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-success">Create</button>
+                                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close
+                                                        </button>
+                                                    </div>
+
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Alert delete success -->
+                                    <div class="toast-container position-absolute top-0 start-50 mt-5">
+                                        <div id="liveToastDeleteSuccess" class="toast bg-success" role="alert" aria-live="assertive"
+                                             aria-atomic="true" style="width:290px;height:100px;">
+                                            <div class="toast-header"></div>
+                                            <div class="toast-body text-light fs-5">
+                                                Bạn đã xóa thành công
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Alert delete error -->
+                                    <div class="toast-container position-absolute top-0 start-50 mt-5">
+                                        <div id="liveToastDeleteError" class="toast bg-danger" role="alert" aria-live="assertive"
+                                             aria-atomic="true" style="width:500px;height:100px;">
+                                            <div class="toast-header"></div>
+                                            <div class="toast-body text-light fs-5">
+                                                Trong danh mục có chứa sản phẩm,rất tiếc không thể xóa
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <%--    Modal Delete Data--%>
+                                <div class="modal" id="deleteDetailForm">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content modalSetDelete">
+                                            <!-- Modal Header -->
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Bạn có muốn xóa không?</h4>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+                                            <!-- Modal body -->
+                                            <div class="modal-body text-center">
+                                                <form action="<%=request.getContextPath()%>/productController/delete?"
+                                                      method="get">
+                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">No
+                                                    </button>
+                                                    <input type="hidden" name="productIdDelete" id="productIdDelete" value="">
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </c:otherwise>
                         </c:choose>
                     </div>
                 </div>
-
-
             </div>
         </section>
+
         <!-- /.content -->
     </div>
 
@@ -339,10 +435,10 @@
 <script>
     $('table .update').click(function () {
         console.log('Vào update dữ liệu');
-        let getId = $(this).parent().find('#caId').val();
+        let getId = $(this).parent().find('#biDetailId').val();
         $.ajax({
             type: 'GET',
-            url: '<%=request.getContextPath()%>/categoryController/initUpdate?categoryId=' + getId,
+            url: '<%=request.getContextPath()%>/billDetailController/initUpdate?billDetailId=' + getId,
             success: function (categoryUpdateEdit) {
                 console.log("Ok");
                 try {
