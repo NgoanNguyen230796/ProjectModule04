@@ -33,11 +33,11 @@ public class Account {
     private Date created;
 
 
-    @Column(name = "role",columnDefinition = "boolean default true")
-    private boolean role;
+    @Column(name = "role")
+    private boolean role=false;
 
-    @Column(name = "accStatus", columnDefinition = "BOOLEAN DEFAULT true")
-    private boolean accStatus;
+    @Column(name = "acc_status")
+    private boolean accStatus=true;
 
     @OneToMany(mappedBy = "account",fetch = FetchType.EAGER)
     private List<Bill> listBill;

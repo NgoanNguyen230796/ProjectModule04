@@ -124,40 +124,12 @@
                     <!-- Add icons to the links using the .nav-icon class
                     with font-awesome or any other icon font library -->
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="<%=request.getContextPath()%>/statisticalController/statisticalData" class="nav-link">
                             <i class="nav-icon fas fa-copy"></i>
                             <p>
                                 Dashboard
-                                <i class="fas fa-angle-left right"></i>
-
                             </p>
                         </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="" class="nav-link">
-                                    &ensp;<i class="nav-icon fas fa-chart-pie"></i>
-                                    <span>Dashboard Type 1</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="" class="nav-link">
-                                    &ensp;<i class="nav-icon fas fa-chart-pie"></i>
-                                    <span>Dashboard Type 1</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="" class="nav-link">
-                                    &ensp;<i class="nav-icon fas fa-chart-pie"></i>
-                                    <span>Dashboard Type 1</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="" class="nav-link">
-                                    &ensp;<i class="nav-icon fas fa-chart-pie"></i>
-                                    <span>TDashboard Type 1</span>
-                                </a>
-                            </li>
-                        </ul>
                     </li>
                     <!--   product -->
                     <li class="nav-item">
@@ -186,15 +158,7 @@
                             </p>
                         </a>
                     </li>
-                    <!--  Bill Detail -->
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-file"></i>
-                            <p>
-                                Bill Detail
-                            </p>
-                        </a>
-                    </li>
+
                     <!--  Account -->
                     <li class="nav-item">
                         <a href="<%=request.getContextPath()%>/accountController/accountGetAllData" class="nav-link">
@@ -225,32 +189,48 @@
                     <div class="d-flex justify-content-center">
                         <div class="col-4 mt-4">
 
-                            <%--                            <form class="d-flex"--%>
-                            <%--                                  action="<%=request.getContextPath()%>/categoryController/categoryGetAllData"--%>
-                            <%--                                  method="get">--%>
-                            <%--                                <input class="form-control me-2" type="text" placeholder="Input CategoryName"--%>
-                            <%--                                       id="categoryNameSearch"--%>
-                            <%--                                       name="categoryNameSearch" value="${categoryNameDefault}">--%>
-                            <%--                                <button class="btn btn-outline-success" type="submit">Search</button>--%>
-                            <%--                            </form>--%>
+                            <form class="d-flex"
+                                  action="<%=request.getContextPath()%>/billController/billGetAllData"
+                                  method="get">
+                                <input class="form-control me-2" type="text" placeholder="Input Bill Id"
+                                       id="billIdSearch"
+                                       name="billIdSearch" value="${billIdDefault}">
+                                <button class="btn btn-outline-success" type="submit">Search</button>
+                            </form>
                         </div>
                         <div class="col-2 ms-5">
-                            <div>Sort By</div>
-                            <%--                            <select class="form-select" aria-label="Default select example" id="direction"--%>
-                            <%--                                    name="direction" onchange="changeDirection()">--%>
-                            <%--                                <option value="Default" ${direction.equals("ASC") && sortBy.equals("categoryId")?'selected':''}>--%>
-                            <%--                                    Default--%>
-                            <%--                                </option>--%>
-                            <%--                                <option value="ASC" ${direction.equals("ASC") && sortBy.equals("categoryName")?'selected':''}>--%>
-                            <%--                                    Category Name Ascending--%>
-                            <%--                                </option>--%>
-                            <%--                                <option value="DESC" ${direction.equals("DESC") && sortBy.equals("categoryName") ?'selected':''}>--%>
-                            <%--                                    Category Name Descending--%>
-                            <%--                                </option>--%>
-                            <%--                            </select>--%>
+                            <div>Sort By Created</div>
+                            <select class="form-select" aria-label="Default select example" id="directionBill"
+                                    name="direction" onchange="changeDirectionBill()">
+                                <option value="Default" ${direction.equals("ASC") && sortBy.equals("billId")?'selected':''}>
+                                    Default
+                                </option>
+                                <option value="ASC" ${direction.equals("ASC") && sortBy.equals("created")?'selected':''}>
+                                    Ascending
+                                </option>
+                                <option value="DESC" ${direction.equals("DESC") && sortBy.equals("created") ?'selected':''}>
+                                    Descending
+                                </option>
+                            </select>
                         </div>
                     </div>
 
+                    <div class="d-flex justify-content-left">
+                        <div class="createDataButton">
+                            <%--            <a type="button" class="btn btn-success" href="<%=request.getContextPath()%>/productController/initCreate">Create New Product</a>--%>
+                            <a type="button" class="btn btn-outline-success mb-3" data-bs-toggle="modal"
+                               href="#createData">Create
+                                New
+                                Bill</a>
+                        </div>
+                        <%--                                                <div class="createDataButton">--%>
+                        <%--                                                    &lt;%&ndash;            <a type="button" class="btn btn-success" href="<%=request.getContextPath()%>/productController/initCreate">Create New Product</a>&ndash;%&gt;--%>
+                        <%--                                                    <a type="button" class="btn btn-outline-success mb-3" data-bs-toggle="modal"--%>
+                        <%--                                                       href="#createData">Create--%>
+                        <%--                                                        New--%>
+                        <%--                                                        Bill Detail</a>--%>
+                        <%--                                                </div>--%>
+                    </div>
                     <%--                    <c:choose>--%>
                     <%--                        <c:when test="${empty listBill}">--%>
                     <%--                            <div class="listEmty">--%>
@@ -258,12 +238,8 @@
                     <%--                            </div>--%>
                     <%--                        </c:when>--%>
                     <%--                        <c:otherwise>--%>
-                    <div class="createDataButton">
-                        <%--            <a type="button" class="btn btn-success" href="<%=request.getContextPath()%>/productController/initCreate">Create New Product</a>--%>
-                        <a type="button" class="btn btn-outline-success mb-3" data-bs-toggle="modal" href="#createData">Create
-                            New
-                            Bill</a>
-                    </div>
+
+
                     <table class="table table-bordered table-hover text-center">
                         <thead>
                         <tr>
@@ -271,10 +247,6 @@
                             <th>Email</th>
                             <th>Created</th>
                             <th>Bill Status</th>
-<%--                            <th>Product Name</th>--%>
-<%--                            <th>Price</th>--%>
-<%--                            <th>Quantity</th>--%>
-<%--                            <th>Total</th>--%>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -287,7 +259,16 @@
                                                     value="${bill.created}"></fmt:formatDate></td>
                                 <td>${bill.billStatus==0?"Đang chờ":bill.billStatus==1?"Đã được duyệt":bill.billStatus==2?"Đang giao hàng":"Đã nhận hàng"}</td>
                                 <td>
-                                    <a class="btn btn-outline-warning update" data-bs-toggle="modal" href="#updateData"><i
+<%--                                    <a class="btn btn-outline-warning show" id="isCheck"--%>
+<%--                                       href="<%=request.getContextPath()%>/billController/initCreate?billId=${bill.billId}"><i--%>
+<%--                                            class="fa-sharp fa-solid fa-file-invoice-dollar"></i></a>--%>
+
+                                    <a class="btn btn-outline-warning show" id="isCheck" data-bs-toggle="modal"
+                                       href="#detailForm"><i
+                                            class="fa-sharp fa-solid fa-file-invoice-dollar"></i></a>
+                                    <a class="btn btn-outline-danger show"
+                                       href="<%=request.getContextPath()%>/billDetailController/billDetail?billId=${bill.billId}"><i class="fa-solid fa-tv"></i></a>
+                                    <a class="btn btn-outline-warning update"><i
                                             class="fa-solid fa-pen-to-square"></i></a>
                                         <%--                                            <a class="btn btn-warning update" href="<%=request.getContextPath()%>/categoryController/initUpdate?categoryId=${category.categoryId}">Update</a>--%>
                                     <a class="btn btn-outline-danger delete" data-bs-toggle="modal"
@@ -305,12 +286,12 @@
                                     <c:choose>
                                         <c:when test="${currentPage <= 1}">
                                             <a class="page-link"
-                                               href="<%=request.getContextPath()%>/categoryController/categoryGetAllData?page=${currentPage}"
+                                               href="<%=request.getContextPath()%>/billController/billGetAllData?page=${currentPage}"
                                                tabindex="-1" aria-disabled="true">Previous</a>
                                         </c:when>
                                         <c:otherwise>
                                             <a class="page-link"
-                                               href="<%=request.getContextPath()%>/categoryController/categoryGetAllData?page=${currentPage - 1}"
+                                               href="<%=request.getContextPath()%>/billController/billGetAllData?page=${currentPage - 1}"
                                                tabindex="-1" aria-disabled="false">Previous</a>
                                         </c:otherwise>
                                     </c:choose>
@@ -319,19 +300,19 @@
                                     <li class="page-item ${currentPage == i ? 'active' : ''}"
                                         aria-current="page">
                                         <a class="page-link"
-                                           href="<%=request.getContextPath()%>/categoryController/categoryGetAllData?page=${i}">${i}</a>
+                                           href="<%=request.getContextPath()%>/billController/billGetAllData?page=${i}">${i}</a>
                                     </li>
                                 </c:forEach>
                                 <li class="page-item ${currentPage >= totalPage ? 'disabled' : ''}">
                                     <c:choose>
                                         <c:when test="${currentPage >= totalPage}">
                                             <a class="page-link"
-                                               href="<%=request.getContextPath()%>/categoryController/categoryGetAllData?page=${totalPage}"
+                                               href="<%=request.getContextPath()%>/billController/billGetAllData?page=${totalPage}"
                                                tabindex="-1" aria-disabled="true">Next</a>
                                         </c:when>
                                         <c:otherwise>
                                             <a class="page-link"
-                                               href="<%=request.getContextPath()%>/categoryController/categoryGetAllData?page=${currentPage + 1}"
+                                               href="<%=request.getContextPath()%>/billController/billGetAllData?page=${currentPage + 1}"
                                                tabindex="-1" aria-disabled="false">Next</a>
                                         </c:otherwise>
                                     </c:choose>
@@ -342,14 +323,13 @@
                     </div>
                     <%--                        </c:otherwise>--%>
                     <%--                    </c:choose>--%>
-
-                    <%--    Modal Create Data--%>
+                    <%--  Create Bill--%>
                     <div class="modal fade" id="createData" tabindex="-1" aria-labelledby="createDataModal"
                          aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content modalSet">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="createDataModal">Thêm mới danh mục</h5>
+                                    <h5 class="modal-title" id="createDataModal">Thêm mới Bill</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                 </div>
@@ -371,7 +351,34 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-success">Create</button>
+                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <%--  Create Bill Detail--%>
+                    <div class="modal fade" id="detailForm" tabindex="-1"
+                         aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content modalSet">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Thêm mới Bill Detail</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="<%=request.getContextPath()%>/billController/createBillDetail"
+                                          method="post">
                                         <div class="row groupRow">
+                                            <input type="hidden" id="billIdOfBillDetail" name="billId" value=""
+                                                   class="form-control">
                                             <div class="col-6">
                                                 <label for="productId" class="fw-bold">Product Name</label>
                                                 <select id="productId" name="productId" class="form-select">
@@ -388,11 +395,12 @@
                                         </div>
                                         <div class="row groupRow">
                                             <div class="col-6">
-                                                <label for="price" class="fw-bold">Quantity</label>
+                                                <label for="quantity" class="fw-bold">Quantity</label>
                                                 <input type="number" id="quantity" name="quantity"
                                                        class="form-control">
                                             </div>
                                         </div>
+
                                         <div class="modal-footer">
                                             <button type="submit" class="btn btn-success">Create</button>
                                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close
@@ -403,117 +411,30 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <%--    Modal Update Data--%>
-                    <%--                    <div class="modal fade" id="updateData" tabindex="-1" aria-labelledby="updateDataModal"--%>
-                    <%--                         aria-hidden="true">--%>
-                    <%--                        <div class="modal-dialog">--%>
-                    <%--                            <div class="modal-content modalSet">--%>
-                    <%--                                <div class="modal-header">--%>
-                    <%--                                    <h5 class="modal-title" id="updateDataModal">Cập nhật danh mục</h5>--%>
-                    <%--                                    <button type="button" class="btn-close" data-bs-dismiss="modal"--%>
-                    <%--                                            aria-label="Close"></button>--%>
-                    <%--                                </div>--%>
-                    <%--                                <div class="modal-body">--%>
-                    <%--                                    <form action="<%=request.getContextPath()%>/categoryController/update"--%>
-                    <%--                                          method="post">--%>
-                    <%--                                        <div class="row groupRow">--%>
-                    <%--                                            <div class="col-6">--%>
-                    <%--                                                <label for="categoryIdUpdate" class="fw-bold">Category ID</label>--%>
-                    <%--                                                <input type="text" id="categoryIdUpdate" name="categoryId"--%>
-                    <%--                                                       class="form-control"--%>
-                    <%--                                                       value="${categoryEdit.categoryId}" readonly>--%>
-                    <%--                                            </div>--%>
-                    <%--                                            <div class="col-6">--%>
-                    <%--                                                <label for="categoryNameUpdate" class="fw-bold">Category Name</label>--%>
-                    <%--                                                <input type="text" id="categoryNameUpdate" name="categoryName"--%>
-                    <%--                                                       class="form-control"--%>
-                    <%--                                                       value="${categoryEdit.categoryName}">--%>
-                    <%--                                            </div>--%>
-                    <%--                                        </div>--%>
-
-                    <%--                                        <div class="row groupRow">--%>
-                    <%--                                            <div class="col-6">--%>
-                    <%--                                                <label for="categoryDescriptionUpdate" class="fw-bold">Category--%>
-                    <%--                                                    Description</label>--%>
-                    <%--                                                <input type="text" id="categoryDescriptionUpdate"--%>
-                    <%--                                                       name="categoryDescription"--%>
-                    <%--                                                       class="form-control" value="${categoryEdit.categoryDescription}">--%>
-                    <%--                                            </div>--%>
-                    <%--                                            <div class="col-6">--%>
-                    <%--                                                <label for="categoryStatusUpdate" class="fw-bold">Category--%>
-                    <%--                                                    Status</label>--%>
-                    <%--                                                <select id="categoryStatusUpdate" name="categoryStatus"--%>
-                    <%--                                                        class="form-select">--%>
-                    <%--                                                    <option value="true" selected>Active</option>--%>
-                    <%--                                                    <option value="false">Inactive</option>--%>
-                    <%--                                                </select>--%>
-                    <%--                                            </div>--%>
-                    <%--                                        </div>--%>
-                    <%--                                        <div class="modal-footer">--%>
-                    <%--                                            <button type="submit" class="btn btn-success">Update</button>--%>
-                    <%--                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close--%>
-                    <%--                                            </button>--%>
-                    <%--                                        </div>--%>
-                    <%--                                    </form>--%>
-                    <%--                                </div>--%>
-                    <%--                            </div>--%>
-                    <%--                        </div>--%>
-                    <%--                    </div>--%>
-                    <%--                    &lt;%&ndash;    Modal Delete Data&ndash;%&gt;--%>
-                    <%--                    <div class="modal" id="deleteData">--%>
-                    <%--                        <div class="modal-dialog">--%>
-                    <%--                            <div class="modal-content modalSetDelete">--%>
-                    <%--                                <!-- Modal Header -->--%>
-                    <%--                                <div class="modal-header">--%>
-                    <%--                                    <h4 class="modal-title">Bạn có muốn xóa không?</h4>--%>
-                    <%--                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>--%>
-                    <%--                                </div>--%>
-                    <%--                                <!-- Modal body -->--%>
-                    <%--                                <div class="modal-body text-center">--%>
-                    <%--                                    <form action="<%=request.getContextPath()%>/categoryController/delete?">--%>
-                    <%--                                        <button type="submit" class="btn btn-danger" id="btnDelete">Delete</button>--%>
-                    <%--                                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">No--%>
-                    <%--                                        </button>--%>
-                    <%--                                        <input type="hidden" name="catalogIdDelete" id="catalogIdDelete" value="">--%>
-                    <%--                                    </form>--%>
-                    <%--                                </div>--%>
-                    <%--                                <div class="modal-footer">--%>
-                    <%--                                </div>--%>
-                    <%--                            </div>--%>
-                    <%--                        </div>--%>
-                    <%--                    </div>--%>
-                    <%--    Modal Sucess --%>
-
-                    <%--                    Test BootStrap--%>
-
-
-                    <!-- Alert delete success -->
-                    <div class="toast-container position-absolute top-0 start-50 mt-5">
-                        <div id="liveToastDeleteSuccess" class="toast bg-success" role="alert" aria-live="assertive"
-                             aria-atomic="true" style="width:290px;height:100px;">
-                            <div class="toast-header"></div>
-                            <div class="toast-body text-light fs-5">
-                                Bạn đã xóa thành công
+                        <!-- Alert delete success -->
+                        <div class="toast-container position-absolute top-0 start-50 mt-5">
+                            <div id="liveToastDeleteSuccess" class="toast bg-success" role="alert" aria-live="assertive"
+                                 aria-atomic="true" style="width:290px;height:100px;">
+                                <div class="toast-header"></div>
+                                <div class="toast-body text-light fs-5">
+                                    Bạn đã xóa thành công
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-
-                    <!-- Alert delete error -->
-                    <div class="toast-container position-absolute top-0 start-50 mt-5">
-                        <div id="liveToastDeleteError" class="toast bg-danger" role="alert" aria-live="assertive"
-                             aria-atomic="true" style="width:500px;height:100px;">
-                            <div class="toast-header"></div>
-                            <div class="toast-body text-light fs-5">
-                                Trong danh mục có chứa sản phẩm,rất tiếc không thể xóa
+                        <!-- Alert delete error -->
+                        <div class="toast-container position-absolute top-0 start-50 mt-5">
+                            <div id="liveToastDeleteError" class="toast bg-danger" role="alert" aria-live="assertive"
+                                 aria-atomic="true" style="width:500px;height:100px;">
+                                <div class="toast-header"></div>
+                                <div class="toast-body text-light fs-5">
+                                    Trong danh mục có chứa sản phẩm,rất tiếc không thể xóa
+                                </div>
                             </div>
                         </div>
+
                     </div>
 
                 </div>
-
-
             </div>
         </section>
         <!-- /.content -->
@@ -612,7 +533,7 @@
     <%--});--%>
 
     const urlParams = new URLSearchParams(window.location.search);
-    const myParam = urlParams.get('message');
+    const myParam = urlParams.get('messageInit');
 
     if (myParam == "error") {
         // document.getElementById("showModelMess").style.display='block';
@@ -643,11 +564,32 @@
         setTimeout(() => {
             toastBootstrap.hide();
         }, autoCloseTimeout);
+
     }
 
 
-</script>
+    // const urlParamsInit = new URLSearchParams(window.location.search);
+    // const myParamInit = urlParams.get('messageInit');
+    // let showDetailForm = new bootstrap.Modal(
+    //     document.getElementById("detailForm"),
+    //     {
+    //         keyboard: false,
+    //
+    //     }
+    // );
+    // if (myParam == "successInit") {
+    //
+    //     showDetailForm.show();
+    // }
+    // if (myParam == "errorInit") {
+    //     showToastDeleteError();
+    //     // window.location="categoryGetAllData";
+    // }
 
+
+
+
+</script>
 <script src="<%=request.getContextPath()%>/resources/js/bill.js" type="text/javascript"></script>
 </body>
 </html>

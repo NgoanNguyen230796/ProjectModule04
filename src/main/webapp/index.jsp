@@ -5,5 +5,6 @@
 <%--<%response.sendRedirect("/productController/productGetAllData");%>--%>
 <%--<%response.sendRedirect("/accountController/accountGetAllData");%>--%>
 <%response.sendRedirect("/billController/billGetAllData");%>
+<%--<%response.sendRedirect("/statisticalController/statisticalData");%>--%>
 
 

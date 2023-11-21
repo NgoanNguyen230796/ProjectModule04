@@ -2,6 +2,7 @@ package com.ra.controller;
 
 import com.google.gson.Gson;
 import com.ra.model.Account;
+import com.ra.model.AccountUpdate;
 import com.ra.model.Category;
 import com.ra.service.IAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,8 +70,9 @@ public class AccountController {
     public ResponseEntity<String> initUpdate(int accId) {
         //Bước 1 :gọi sang CategoryService lấy thông tin sp theo categoryId
         Account accountEdit = accountService.findById(accId);
+        AccountUpdate accountUpdate=new AccountUpdate(accountEdit.getAccId(),accountEdit.getEmail(),accountEdit.getPassword(),accountEdit.getCreated(),accountEdit.isRole(),accountEdit.isAccStatus());
         //Chuyen du lieu tu java object sang JSON
-        String json = new Gson().toJson(accountEdit);
+        String json = new Gson().toJson(accountUpdate);
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Content-Type", "application/json");
         return new ResponseEntity<>(json, responseHeaders, HttpStatus.OK);

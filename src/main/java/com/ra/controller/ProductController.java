@@ -201,6 +201,33 @@ public class ProductController {
         return new ResponseEntity<>(json, responseHeaders, HttpStatus.OK);
     }
 
+    @ResponseBody
+    @GetMapping("/initShow")
+    public ResponseEntity<?> initShow(@RequestParam(name = "productId") String productId) {
+        Product productEdit = productService.findByProductId(productId);
+        ProductUpdate productUpdateEdit=new ProductUpdate();
+        productUpdateEdit.setProductId(productEdit.getProductId());
+        productUpdateEdit.setProductName(productEdit.getProductName());
+        productUpdateEdit.setPrice(productEdit.getPrice());
+        productUpdateEdit.setTittle(productEdit.getTittle());
+        productUpdateEdit.setProductDescription(productEdit.getProductDescription());
+        System.out.println("link image:"+productEdit.getImage());
+        productUpdateEdit.setImage(productEdit.getImage());
+        productUpdateEdit.setProductUnit(productEdit.getProductUnit());
+        productUpdateEdit.setProductStatus(productEdit.isProductStatus());
+        productUpdateEdit.setCategoryId(productEdit.getCategory().getCategoryId());
+        productUpdateEdit.setCategoryName(productEdit.getCategory().getCategoryName());
+
+        //Chuyen du lieu tu java object sang JSON
+//        String json = new Gson().toJson(productUpdateEdit);
+        String json = new Gson().toJson(productEdit);
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Content-Type", "application/json");
+        System.out.println("Ok Test");
+        return new ResponseEntity<>(json, responseHeaders, HttpStatus.OK);
+    }
+
 
     //Show dữ liệu lên trên form
 //    @GetMapping(value = "/initUpdate")
@@ -223,33 +250,24 @@ public class ProductController {
         }
     }
 
-    @PostMapping(value = "/delete")
-    public String deleteProduct(Model model,@RequestParam String productIdDelete) {
+    @GetMapping(value = "/delete")
+    public ModelAndView deleteProduct(@RequestParam String productIdDelete) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("redirect:/productController/productGetAllData?page=1");
         String success = "success";
         String error = "error";
         Product product=productService.findByProductId(productIdDelete);
-//        if(product==null){
-//            return "error";
-//        }else{
-//
-//            boolean result = productService.delete(product);
-//            if (result) {
-//                return "redirect:productGetAllData";
-//            } else {
-//                return "error";
-//            }
-//        }
         if(product!=null){
-            if(product.getListBillDetail().size()>0){
+            if(product.getListBillDetail().size()==0){
                 boolean result = productService.delete(product);
                 if (result) {
-                    model.addAttribute("message", success);
-                } else {
-                    model.addAttribute("message", error);
+                    mav.addObject("message", success);
                 }
+            }else {
+                mav.addObject("message", error);
             }
         }
-        return "redirect:productGetAllData";
+        return mav;
     }
 
 

@@ -15,5 +15,8 @@ public interface IAccountService {
     boolean saveOrUpdate(Account account);
     boolean delete(int accId);
 
+    int statisticalAccountActive();
+    int statisticalAccountInActive();
+
 
 }

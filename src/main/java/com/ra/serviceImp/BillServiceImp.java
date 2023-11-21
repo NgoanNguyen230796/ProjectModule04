@@ -34,7 +34,7 @@ public class BillServiceImp implements IBillService {
 
     @Override
     public Bill findById(String billId) {
-        return null;
+        return billRepository.findById(billId).get();
     }
 
     @Override
@@ -56,5 +56,18 @@ public class BillServiceImp implements IBillService {
             ex.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public boolean isCheckBillStatus(String billId) {
+        try {
+            boolean isCheck = billRepository.isCheckBillStatus(billId);
+            if (isCheck) {
+                return true;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return false;
     }
 }

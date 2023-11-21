@@ -29,4 +29,11 @@ public interface IProductRepository extends JpaRepository<Product, String> {
 
     List<Product> findAll();
     List<Product> findAllByProductStatusIsTrue();
+
+    @Query("SELECT COUNT(pr) FROM Product pr WHERE pr.productStatus = true")
+    int statisticalProductActive();
+
+    @Query("SELECT COUNT(pr) FROM Product pr WHERE pr.productStatus = false")
+    int statisticalProductInActive();
+
 }

@@ -7,6 +7,8 @@ import com.ra.service.IBillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BillDetailServiceImp implements IBillDetailService {
     @Autowired
@@ -33,5 +35,15 @@ public class BillDetailServiceImp implements IBillDetailService {
     @Override
     public boolean delete(int billDetailId) {
         return false;
+    }
+
+    @Override
+    public BillDetail findById(String billId) {
+        return billDetailRepository.findAllByBill_BillId(billId);
+    }
+
+    @Override
+    public List<BillDetail> findDataByBillId(String billId) {
+        return billDetailRepository.findAllDataByBill_BillId(billId);
     }
 }

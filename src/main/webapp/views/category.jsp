@@ -105,15 +105,15 @@
         <!-- Sidebar -->
         <div class="sidebar">
             <!-- Sidebar user panel (optional) -->
-<%--            <div class="user-panel mt-3 pb-3 mb-3 d-flex">--%>
-<%--                <div class="image">--%>
-<%--                    <img src="<%=request.getContextPath()%>/resources/dist/img/Ngoan.jpg" alt="User Image"--%>
-<%--                         style="height:50px;width:50px"/>--%>
-<%--                </div>--%>
-<%--                <div class="info">--%>
-<%--                    <span class="brand-text font-weight-light">Admin</span>--%>
-<%--                </div>--%>
-<%--            </div>--%>
+            <%--            <div class="user-panel mt-3 pb-3 mb-3 d-flex">--%>
+            <%--                <div class="image">--%>
+            <%--                    <img src="<%=request.getContextPath()%>/resources/dist/img/Ngoan.jpg" alt="User Image"--%>
+            <%--                         style="height:50px;width:50px"/>--%>
+            <%--                </div>--%>
+            <%--                <div class="info">--%>
+            <%--                    <span class="brand-text font-weight-light">Admin</span>--%>
+            <%--                </div>--%>
+            <%--            </div>--%>
 
             <!-- SidebarSearch Form -->
             <!-- Sidebar Menu -->
@@ -123,40 +123,12 @@
                     <!-- Add icons to the links using the .nav-icon class
                     with font-awesome or any other icon font library -->
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="<%=request.getContextPath()%>/statisticalController/statisticalData" class="nav-link">
                             <i class="nav-icon fas fa-copy"></i>
                             <p>
                                 Dashboard
-                                <i class="fas fa-angle-left right"></i>
-
                             </p>
                         </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="" class="nav-link">
-                                    &ensp;<i class="nav-icon fas fa-chart-pie"></i>
-                                    <span>Dashboard Type 1</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="" class="nav-link">
-                                    &ensp;<i class="nav-icon fas fa-chart-pie"></i>
-                                    <span>Dashboard Type 1</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="" class="nav-link">
-                                    &ensp;<i class="nav-icon fas fa-chart-pie"></i>
-                                    <span>Dashboard Type 1</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="" class="nav-link">
-                                    &ensp;<i class="nav-icon fas fa-chart-pie"></i>
-                                    <span>TDashboard Type 1</span>
-                                </a>
-                            </li>
-                        </ul>
                     </li>
                     <!--   product -->
                     <li class="nav-item">
@@ -182,15 +154,6 @@
                             <i class="nav-icon fas fa-book"></i>
                             <p>
                                 Bill
-                            </p>
-                        </a>
-                    </li>
-                    <!--  Bill Detail -->
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-file"></i>
-                            <p>
-                                Bill Detail
                             </p>
                         </a>
                     </li>
@@ -250,92 +213,94 @@
                         </div>
                     </div>
 
-                    <c:choose>
-                        <c:when test="${empty listCategory}">
-                            <div class="listEmty">
-                                <h4 class="text-center">Không tìm thấy kết quả</h4>
-                            </div>
-                        </c:when>
-                        <c:otherwise>
-                            <div class="createDataButton">
-                                    <%--            <a type="button" class="btn btn-success" href="<%=request.getContextPath()%>/productController/initCreate">Create New Product</a>--%>
-                                <a type="button" class="btn btn-outline-success mb-3" data-bs-toggle="modal" href="#createData">Create
-                                    New
-                                    Category</a>
-                            </div>
-                            <table class="table table-bordered table-hover text-center">
-                                <thead>
-                                <tr>
-                                    <th>Category ID</th>
-                                    <th>Category Name</th>
-                                    <th>Description</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <c:forEach items="${listCategory}" var="category">
-                                    <tr>
-                                        <td>${category.categoryId}</td>
-                                        <td>${category.categoryName}</td>
-                                        <td>${category.categoryDescription}</td>
-                                        <td>${category.categoryStatus?"Active":"Inactive"}</td>
-                                        <td>
-                                            <a class="btn btn-outline-warning update" data-bs-toggle="modal" href="#updateData"><i
-                                                    class="fa-solid fa-pen-to-square"></i></a>
-                                                <%--                                            <a class="btn btn-warning update" href="<%=request.getContextPath()%>/categoryController/initUpdate?categoryId=${category.categoryId}">Update</a>--%>
-                                            <a class="btn btn-outline-danger delete" data-bs-toggle="modal"
-                                               href="#deleteData"><i class="fa-solid fa-trash"></i></a>
-                                            <input type="hidden" id="caId" value="${category.categoryId}">
-                                        </td>
-                                    </tr>
+                    <%--                    <c:choose>--%>
+                    <%--                        <c:when test="${empty listCategory}">--%>
+                    <%--                            <div class="listEmty">--%>
+                    <%--                                <h4 class="text-center">Không tìm thấy kết quả</h4>--%>
+                    <%--                            </div>--%>
+                    <%--                        </c:when>--%>
+                    <%--                        <c:otherwise>--%>
+                    <div class="createDataButton">
+                        <%--            <a type="button" class="btn btn-success" href="<%=request.getContextPath()%>/productController/initCreate">Create New Product</a>--%>
+                        <a type="button" class="btn btn-outline-success mb-3" data-bs-toggle="modal"
+                           href="#createData">Create
+                            New
+                            Category</a>
+                    </div>
+                    <table class="table table-bordered table-hover text-center">
+                        <thead>
+                        <tr>
+                            <th>Category ID</th>
+                            <th>Category Name</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${listCategory}" var="category">
+                            <tr>
+                                <td>${category.categoryId}</td>
+                                <td>${category.categoryName}</td>
+                                <td>${category.categoryDescription}</td>
+                                <td>${category.categoryStatus?"Active":"Inactive"}</td>
+                                <td>
+                                    <a class="btn btn-outline-warning update" data-bs-toggle="modal"
+                                       href="#updateData"><i
+                                            class="fa-solid fa-pen-to-square"></i></a>
+                                        <%--                                            <a class="btn btn-warning update" href="<%=request.getContextPath()%>/categoryController/initUpdate?categoryId=${category.categoryId}">Update</a>--%>
+                                    <a class="btn btn-outline-danger delete" data-bs-toggle="modal"
+                                       href="#deleteData"><i class="fa-solid fa-trash"></i></a>
+                                    <input type="hidden" id="caId" value="${category.categoryId}">
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                    <div>
+                        <nav aria-label="...">
+                            <ul class="pagination">
+                                <li class="page-item ${currentPage <= 1 ? 'disabled' : ''}">
+                                    <c:choose>
+                                        <c:when test="${currentPage <= 1}">
+                                            <a class="page-link"
+                                               href="<%=request.getContextPath()%>/categoryController/categoryGetAllData?page=${currentPage}"
+                                               tabindex="-1" aria-disabled="true">Previous</a>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <a class="page-link"
+                                               href="<%=request.getContextPath()%>/categoryController/categoryGetAllData?page=${currentPage - 1}"
+                                               tabindex="-1" aria-disabled="false">Previous</a>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </li>
+                                <c:forEach begin="1" end="${totalPage}" var="i">
+                                    <li class="page-item ${currentPage == i ? 'active' : ''}"
+                                        aria-current="page">
+                                        <a class="page-link"
+                                           href="<%=request.getContextPath()%>/categoryController/categoryGetAllData?page=${i}">${i}</a>
+                                    </li>
                                 </c:forEach>
-                                </tbody>
-                            </table>
-                            <div>
-                                <nav aria-label="...">
-                                    <ul class="pagination">
-                                        <li class="page-item ${currentPage <= 1 ? 'disabled' : ''}">
-                                            <c:choose>
-                                                <c:when test="${currentPage <= 1}">
-                                                    <a class="page-link"
-                                                       href="<%=request.getContextPath()%>/categoryController/categoryGetAllData?page=${currentPage}"
-                                                       tabindex="-1" aria-disabled="true">Previous</a>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <a class="page-link"
-                                                       href="<%=request.getContextPath()%>/categoryController/categoryGetAllData?page=${currentPage - 1}"
-                                                       tabindex="-1" aria-disabled="false">Previous</a>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </li>
-                                        <c:forEach begin="1" end="${totalPage}" var="i">
-                                            <li class="page-item ${currentPage == i ? 'active' : ''}"
-                                                aria-current="page">
-                                                <a class="page-link"
-                                                   href="<%=request.getContextPath()%>/categoryController/categoryGetAllData?page=${i}">${i}</a>
-                                            </li>
-                                        </c:forEach>
-                                        <li class="page-item ${currentPage >= totalPage ? 'disabled' : ''}">
-                                            <c:choose>
-                                                <c:when test="${currentPage >= totalPage}">
-                                                    <a class="page-link"
-                                                       href="<%=request.getContextPath()%>/categoryController/categoryGetAllData?page=${totalPage}"
-                                                       tabindex="-1" aria-disabled="true">Next</a>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <a class="page-link"
-                                                       href="<%=request.getContextPath()%>/categoryController/categoryGetAllData?page=${currentPage + 1}"
-                                                       tabindex="-1" aria-disabled="false">Next</a>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </li>
-                                    </ul>
+                                <li class="page-item ${currentPage >= totalPage ? 'disabled' : ''}">
+                                    <c:choose>
+                                        <c:when test="${currentPage >= totalPage}">
+                                            <a class="page-link"
+                                               href="<%=request.getContextPath()%>/categoryController/categoryGetAllData?page=${totalPage}"
+                                               tabindex="-1" aria-disabled="true">Next</a>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <a class="page-link"
+                                               href="<%=request.getContextPath()%>/categoryController/categoryGetAllData?page=${currentPage + 1}"
+                                               tabindex="-1" aria-disabled="false">Next</a>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </li>
+                            </ul>
 
-                                </nav>
-                            </div>
-                        </c:otherwise>
-                    </c:choose>
+                        </nav>
+                    </div>
+                    <%--                        </c:otherwise>--%>
+                    <%--                    </c:choose>--%>
 
                     <%--    Modal Create Data--%>
                     <div class="modal fade" id="createData" tabindex="-1" aria-labelledby="createDataModal"
@@ -464,7 +429,7 @@
                     </div>
                     <%--    Modal Sucess --%>
 
-<%--                    Test BootStrap--%>
+                    <%--                    Test BootStrap--%>
 
 
                     <!-- Alert delete success -->
@@ -488,7 +453,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
 
 
@@ -592,17 +556,12 @@
     const urlParams = new URLSearchParams(window.location.search);
     const myParam = urlParams.get('message');
 
-   if(myParam=="error"){
-       // document.getElementById("showModelMess").style.display='block';
-       // document.getElementById("showModelMess").style.display='block';
-       showToastDeleteError();
-       // window.location="categoryGetAllData";
-   }
-   if(myParam=="success"){
-       // document.getElementById("liveToastDeleteSuccess").style.display='block';
-       showToastDeleteSuccess();
-       // window.location="categoryGetAllData";
-   }
+    if (myParam == "error") {
+        showToastDeleteError();
+    }
+    if (myParam == "success") {
+        showToastDeleteSuccess();
+    }
 
     function showToastDeleteSuccess() {
         let toastLiveShow = document.getElementById("liveToastDeleteSuccess");
@@ -613,7 +572,8 @@
             toastBootstrap.hide();
         }, autoCloseTimeout);
     }
-   function showToastDeleteError() {
+
+    function showToastDeleteError() {
         let toastLiveShow = document.getElementById("liveToastDeleteError");
         let toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveShow);
         toastBootstrap.show();
@@ -622,8 +582,6 @@
             toastBootstrap.hide();
         }, autoCloseTimeout);
     }
-
-
 
 
 </script>

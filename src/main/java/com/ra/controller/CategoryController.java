@@ -103,7 +103,9 @@ public class CategoryController {
     }
 
     @GetMapping(value = "/delete")
-    public String deleteCategories(Model model, @RequestParam int catalogIdDelete) {
+    public ModelAndView deleteCategories(@RequestParam int catalogIdDelete) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("redirect:/categoryController/categoryGetAllData?page=1");
         String success = "success";
         String error = "error";
         // Bước 1: Gọi sang CategoriesService thực hiện xóa sản phẩm
@@ -111,23 +113,24 @@ public class CategoryController {
         // Bước 2: Nhận result và điều hướng sang trang hiển thị
         if (result) {
             // Trường hợp xóa thành công, thêm thông báo vào model
-            model.addAttribute("message", success);
+            mav.addObject("message", success);
         } else {
-            model.addAttribute("message", error);
+            mav.addObject("message", error);
         }
-
         // Trả về ModelAndView chứa dữ liệu và điều hướng đến trang category.jsp
-        return "redirect:categoryGetAllData";
+        return mav;
     }
 
-//    @PostMapping(value = "/delete")
+//    @GetMapping(value = "/delete")
 //    public ModelAndView deleteCategories(@RequestParam int catalogIdDelete) {
 //        ModelAndView mav = new ModelAndView();
+//        String success = "success";
+//        String error = "error";
 //        mav.setViewName("redirect:/categoryController/categoryGetAllData");
 //
-////        if (categoryDeleteCheck.getListProduct().size() != 0) {
-////            model.addAttribute("message", error);
-////        } else {
+//        if (categoryDeleteCheck.getListProduct().size() != 0) {
+//            model.addAttribute("message", error);
+//        } else {
 //        // Bước 1: Gọi sang CategoriesService thực hiện xóa sản phẩm
 //        boolean result = categoryService.delete(catalogIdDelete);
 //        // Bước 2: Nhận result và điều hướng sang trang hiển thị
@@ -135,7 +138,7 @@ public class CategoryController {
 //            // Trường hợp xóa thành công, thêm thông báo vào model
 //            mav.addObject("message", success);
 //
-//        }else{
+//        } else {
 //            mav.addObject("message", error);
 //        }
 //

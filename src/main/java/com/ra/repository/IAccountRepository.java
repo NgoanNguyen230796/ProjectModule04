@@ -18,4 +18,11 @@ public interface IAccountRepository extends JpaRepository<Account,Integer> {
     List<Account> findAll();
 
     List<Account>findAllByAccStatusIsTrue();
+
+    @Query("SELECT COUNT(ac) FROM Account ac WHERE ac.accStatus = true")
+    int statisticalAccountActive();
+
+
+    @Query("SELECT COUNT(ac) FROM Account ac WHERE ac.accStatus = false ")
+    int statisticalAccountInActive();
 }

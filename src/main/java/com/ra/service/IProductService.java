@@ -19,5 +19,9 @@ public interface IProductService {
 
     List<Product> getAllData();
     List<Product> getAllDataByProductStatusIsTrue();
+    int statisticalProductActive();
+    int statisticalProductInActive();
+
+
     
 }

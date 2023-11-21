@@ -124,40 +124,12 @@
                     <!-- Add icons to the links using the .nav-icon class
                     with font-awesome or any other icon font library -->
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="<%=request.getContextPath()%>/statisticalController/statisticalData" class="nav-link">
                             <i class="nav-icon fas fa-copy"></i>
                             <p>
                                 Dashboard
-                                <i class="fas fa-angle-left right"></i>
-
                             </p>
                         </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="" class="nav-link">
-                                    &ensp;<i class="nav-icon fas fa-chart-pie"></i>
-                                    <span>Dashboard Type 1</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="" class="nav-link">
-                                    &ensp;<i class="nav-icon fas fa-chart-pie"></i>
-                                    <span>Dashboard Type 1</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="" class="nav-link">
-                                    &ensp;<i class="nav-icon fas fa-chart-pie"></i>
-                                    <span>Dashboard Type 1</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="" class="nav-link">
-                                    &ensp;<i class="nav-icon fas fa-chart-pie"></i>
-                                    <span>TDashboard Type 1</span>
-                                </a>
-                            </li>
-                        </ul>
                     </li>
                     <!--   Category -->
                     <li class="nav-item">
@@ -183,15 +155,6 @@
                             <i class="nav-icon fas fa-book"></i>
                             <p>
                                 Bill
-                            </p>
-                        </a>
-                    </li>
-                    <!--  Bill Detail -->
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-file"></i>
-                            <p>
-                                Bill Detail
                             </p>
                         </a>
                     </li>
@@ -295,8 +258,8 @@
                                 <td><fmt:formatDate pattern="dd/MM/yyyy"
                                                     value="${account.created}"></fmt:formatDate></td>
                                 <td>${account.role?"Admin":"Customer"}</td>
-                                <td style="background-color: ${account.accStatus ? 'red' : 'white'};">
-                                    <span>${account.accStatus?"Inactive":"Active"}</span>
+                                <td style="display: block;text-align: center;">
+                                    <button type="button" class="btn ${account.accStatus==true?'btn-success':'btn-danger'} btnStatusSet">${account.accStatus==true?"Active":"Inactive"}</button>
                                 </td>
                                 <td>
                                     <a class="btn btn-outline-warning lock update" data-bs-toggle="modal"
@@ -479,7 +442,7 @@
                                         </div>
                                         <div class="row groupRow">
                                             <div class="col-6">
-                                                <input type="hidden" name="accStatus" id="accStatusUpdate" value="1">
+                                                <input type="hidden" name="accStatus" id="accStatusUpdate" value="false">
                                             </div>
                                         </div>
                                         <button type="submit" class="btn btn-success btnYesClock me-3">Yes</button>
@@ -527,7 +490,7 @@
                                         <div class="row groupRow">
                                             <div class="col-6">
                                                 <input type="hidden" name="accStatus" id="accStatusUpdateUnLock"
-                                                       value="0">
+                                                       value="true">
                                             </div>
                                         </div>
                                         <button type="submit" class="btn btn-success btnYesUnClock me-3">Yes</button>
@@ -647,12 +610,12 @@
         $.ajax({
             type: 'GET',
             url: '<%=request.getContextPath()%>/accountController/initUpdate?accId=' + getId,
-            success: function (accountEdit) {
+            success: function (accountUpdate) {
                 console.log("Ok");
                 try {
-                    $('#accIdUpdateData').val(accountEdit.accId);
-                    $('#emailUpdateData').val(accountEdit.email);
-                    $('#passwordUpdateData').val(accountEdit.password);
+                    $('#accIdUpdateData').val(accountUpdate.accId);
+                    $('#emailUpdateData').val(accountUpdate.email);
+                    $('#passwordUpdateData').val(accountUpdate.password);
 
                 } catch (e) {
                     console.error("Error parsing JSON response:", e);

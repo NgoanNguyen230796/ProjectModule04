@@ -124,40 +124,12 @@
                     <!-- Add icons to the links using the .nav-icon class
                     with font-awesome or any other icon font library -->
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="<%=request.getContextPath()%>/statisticalController/statisticalData" class="nav-link">
                             <i class="nav-icon fas fa-copy"></i>
                             <p>
                                 Dashboard
-                                <i class="fas fa-angle-left right"></i>
-
                             </p>
                         </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="" class="nav-link">
-                                    &ensp;<i class="nav-icon fas fa-chart-pie"></i>
-                                    <span>Dashboard Type 1</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="" class="nav-link">
-                                    &ensp;<i class="nav-icon fas fa-chart-pie"></i>
-                                    <span>Dashboard Type 1</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="" class="nav-link">
-                                    &ensp;<i class="nav-icon fas fa-chart-pie"></i>
-                                    <span>Dashboard Type 1</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="" class="nav-link">
-                                    &ensp;<i class="nav-icon fas fa-chart-pie"></i>
-                                    <span>TDashboard Type 1</span>
-                                </a>
-                            </li>
-                        </ul>
                     </li>
                     <!--   product -->
                     <li class="nav-item">
@@ -186,15 +158,7 @@
                             </p>
                         </a>
                     </li>
-                    <!--  Bill Detail -->
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-file"></i>
-                            <p>
-                                Bill Detail
-                            </p>
-                        </a>
-                    </li>
+
                     <!--  Account -->
                     <li class="nav-item">
                         <a href="<%=request.getContextPath()%>/accountController/accountGetAllData" class="nav-link">
@@ -308,8 +272,8 @@
                                        href="#showDataDetail"><i class="fa-solid fa-tv"></i></a>
 
                                     <a class="btn btn-outline-warning update" data-bs-toggle="modal"
-                                       href="#updateData">Update</a>
-                                        <%--                                            <a class="btn btn-warning update"--%>
+                                       href="#updateData"><i class="fa-solid fa-pen-to-square"></i></a>
+                                            <%--                                            <a class="btn btn-warning update"--%>
                                         <%--                                               href="<%=request.getContextPath()%>/productController/initUpdate?productId=${product.productId}"><i--%>
                                         <%--                                                    class="fa-solid fa-pen-to-square"></i></a>--%>
                                     <a class="btn btn-outline-danger delete" data-bs-toggle="modal"
@@ -565,7 +529,7 @@
                                 <!-- Modal body -->
                                 <div class="modal-body text-center">
                                     <form action="<%=request.getContextPath()%>/productController/delete?"
-                                          method="post">
+                                          method="get">
                                         <button type="submit" class="btn btn-danger">Delete</button>
                                         <button type="button" class="btn btn-success" data-bs-dismiss="modal">No
                                         </button>
@@ -724,6 +688,50 @@
             });
 
         });
+
+        $('table .show').click(function () {
+            console.log('Vào update dữ liệu');
+            let getId = $(this).parent().find('#prId').val();
+            $.ajax({
+                type: 'GET',
+                dataType: "json",
+                url: '<%=request.getContextPath()%>/productController/initShow?productId=' + getId,
+                success: function (productShow) {
+                    console.log("Ok");
+                    try {
+                        // Attempt to parse the JSON response
+                        // productEdit = JSON.parse(productEdit);
+                        $('#productIdUpdate').val(productUpdateEdit.productId);
+                        $('#productNameUpdate').val(productUpdateEdit.productName);
+                        $('#priceUpdate').val(productUpdateEdit.price);
+                        $('#tittleUpdate').val(productUpdateEdit.tittle);
+                        $('#productDescriptionUpdate').val(productUpdateEdit.productDescription);
+
+                        $('#productImageUpdate').change(function() {
+                            var i = $(this).prev('label').clone();
+                            var file = $('#file-upload')[0].files[0].name;
+                            $(this).prev('label').text(file);
+                        });
+                        $('#productImageUpdate').val(productUpdateEdit.productImage);
+                        console.log(productUpdateEdit.productImage);
+                        let unit = productUpdateEdit.productUnit == 1 ? "Yến" : productUpdateEdit.productUnit == 2 ? "Kg" : "Gram";
+                        $('#productUnit').val(unit);
+                        let status = productUpdateEdit.productStatus.toString();
+                        $('#productStatusUpdate').val(status);
+                        $('#categoryUpdate').val(productUpdateEdit.categoryId);
+
+
+                    } catch (e) {
+                        console.error("Error parsing JSON response:", e);
+                    }
+
+                }
+            });
+
+        });
+
+
+
 
         const urlParams = new URLSearchParams(window.location.search);
         const myParam = urlParams.get('message');

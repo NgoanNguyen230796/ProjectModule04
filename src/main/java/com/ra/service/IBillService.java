@@ -13,4 +13,7 @@ public interface IBillService {
     boolean update(Bill bill);
 
     boolean delete(String billId);
+    boolean isCheckBillStatus(String billId);
+
+
 }

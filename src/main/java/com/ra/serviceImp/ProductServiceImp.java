@@ -78,4 +78,15 @@ public class ProductServiceImp implements IProductService {
     public List<Product> getAllDataByProductStatusIsTrue() {
         return productRepository.findAllByProductStatusIsTrue();
     }
+
+
+    @Override
+    public int statisticalProductActive() {
+        return productRepository.statisticalProductActive();
+    }
+
+    @Override
+    public int statisticalProductInActive() {
+        return productRepository.statisticalProductInActive();
+    }
 }

@@ -18,16 +18,17 @@ public class BillDetail {
     @Column(name = "quantity", columnDefinition = "LONG CHECK (quantity > 0)")
     private Long quantity;
 
-//    @Column(name = "total", columnDefinition = "DOUBLE DEFAULT (price * quantity)")
-    @Column(name = "total")
+    @Column(name = "total", columnDefinition = "DOUBLE")
     @Formula("price * quantity")
     private Double total;
+
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "bill_id", referencedColumnName = "bill_id")
     private Bill bill;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id", referencedColumnName = "product_id")
     private Product productT2;
 

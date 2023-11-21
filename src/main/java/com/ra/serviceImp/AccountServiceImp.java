@@ -68,4 +68,15 @@ public class AccountServiceImp implements IAccountService {
     public List<Account> getAllDataByAccStatusTrue() {
         return accountRepository.findAllByAccStatusIsTrue();
     }
+
+
+    @Override
+    public int statisticalAccountActive() {
+        return accountRepository.statisticalAccountActive();
+    }
+
+    @Override
+    public int statisticalAccountInActive() {
+        return accountRepository.statisticalAccountInActive();
+    }
 }
