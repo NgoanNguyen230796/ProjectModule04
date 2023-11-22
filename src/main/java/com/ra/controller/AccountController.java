@@ -83,7 +83,7 @@ public class AccountController {
         boolean result = accountService.saveOrUpdate(accountEdit);
         //Bước 2:nhận result và điều hướng sang trang hiển thị
         if (result) {
-            return "redirect:accountGetAllData";
+            return "redirect:accountGetAllData?page=1";
         } else {
             return "error";
         }
@@ -94,7 +94,7 @@ public class AccountController {
         //Thực hiện gọi sang service thực hiện thêm mới
         boolean result = accountService.saveOrUpdate(account);
         if (result) {
-            return "redirect:accountGetAllData";
+            return "redirect:accountGetAllData?page=1";
         } else {
             return "error";
         }

@@ -96,7 +96,7 @@ public class CategoryController {
         boolean result = categoryService.saveOrUpdate(categoryEdit);
         //Bước 2:nhận result và điều hướng sang trang hiển thị
         if (result) {
-            return "redirect:categoryGetAllData";
+            return "redirect:categoryGetAllData?page=1";
         } else {
             return "error";
         }

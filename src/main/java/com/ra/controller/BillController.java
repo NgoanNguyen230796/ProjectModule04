@@ -79,24 +79,24 @@ public class BillController {
         }
     }
 
-    @GetMapping(value = "/")
-    public String initCreate(Model model, @RequestParam String billId) {
-        String success = "successInit";
-        String error = "errorInit";
-        // Bước 1: Gọi sang billService thực hiện ktra
-        boolean result = billService.isCheckBillStatus(billId);
-        // Bước 2: Nhận result và điều hướng sang trang hiển thị
-        if (result) {
-            // Trường hợp xóa thành công, thêm thông báo vào model
-            model.addAttribute("messageInit", success);
-        } else {
-
-            model.addAttribute("messageInit", error);
-        }
-
-        // Trả về ModelAndView chứa dữ liệu và điều hướng đến trang category.jsp
-        return "redirect:billGetAllData";
-    }
+//    @GetMapping(value = "/")
+//    public String initCreate(Model model, @RequestParam String billId) {
+//        String success = "successInit";
+//        String error = "errorInit";
+//        // Bước 1: Gọi sang billService thực hiện ktra
+//        boolean result = billService.isCheckBillStatus(billId);
+//        // Bước 2: Nhận result và điều hướng sang trang hiển thị
+//        if (result) {
+//            // Trường hợp xóa thành công, thêm thông báo vào model
+//            model.addAttribute("messageInit", success);
+//        } else {
+//
+//            model.addAttribute("messageInit", error);
+//        }
+//
+//        // Trả về ModelAndView chứa dữ liệu và điều hướng đến trang category.jsp
+//        return "redirect:billGetAllData";
+//    }
 
 
 

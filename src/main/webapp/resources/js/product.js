@@ -6,6 +6,9 @@ $('#createDataModal').on('hidden.bs.modal', function (e) {
     $('#productDescription').val('');
     $('#productUnit').val('1');
     $('#productStatus').val('true');
+    $('#otherImages').val('');
+    $('#productImage').val('');
+
 
 });
 $('table .delete').click(function () {

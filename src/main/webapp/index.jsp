@@ -1,10 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
-<%--<%response.sendRedirect("/loginController/login");%>--%>
+<%response.sendRedirect("/loginController/login");%>
 <%--<%response.sendRedirect("/categoryController/categoryGetAllData");%>--%>
 <%--<%response.sendRedirect("/productController/productGetAllData");%>--%>
 <%--<%response.sendRedirect("/accountController/accountGetAllData");%>--%>
-<%response.sendRedirect("/billController/billGetAllData");%>
+<%--<%response.sendRedirect("/billController/billGetAllData");%>--%>
 <%--<%response.sendRedirect("/statisticalController/statisticalData");%>--%>
 
 

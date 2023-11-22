@@ -38,7 +38,7 @@ public class LoginController {
     public ModelAndView createCategories(String email, String password) {
         ModelAndView mav = new ModelAndView();
         if (email.equals("admin@gmail.com") && password.equals("1234")) {
-            mav.setViewName("redirect:/categoryController/categoryGetAllData");
+            mav.setViewName("redirect:/statisticalController/statisticalData");
         } else {
             mav.setViewName("login");
             mav.addObject("messageError", messageError);

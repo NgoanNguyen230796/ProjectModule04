@@ -85,8 +85,16 @@ public class UploadFileServiceImp implements IUploadFileService {
 ////        } catch (IOException e) {
 ////            throw new RuntimeException(e);
 ////        }
+//        // Trích xuất tên tệp tin từ URL
+//        String fileName = extractFileNameFromUrl(mediaLink);
 //
-//        return
+//        // Tên bucket của Firebase Storage
+//        String bucketName = "your-firebase-storage-bucket-url";
+//
+//        // Xóa tệp tin
+//        BlobId blobId = BlobId.of(bucketName, fileName);
+//        storage.delete(blobId);
+//
 //
 //    }
 }

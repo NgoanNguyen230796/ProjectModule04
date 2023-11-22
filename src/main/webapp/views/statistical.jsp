@@ -69,32 +69,6 @@
                 <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
             </li>
         </ul>
-        <!-- Right navbar links -->
-        <ul class="navbar-nav ml-auto">
-            <!-- Navbar Search -->
-            <li class="nav-item">
-                <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-                    <i class="fas fa-search"></i>
-                </a>
-                <div class="navbar-search-block">
-                    <form class="form-inline">
-                        <div class="input-group input-group-sm">
-                            <input class="form-control form-control-navbar" type="search" placeholder="Search"
-                                   aria-label="Search">
-                            <div class="input-group-append">
-                                <button class="btn btn-navbar" type="submit">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </li>
-
-        </ul>
     </nav>
     <!-- /.navbar -->
     <!-- Main Sidebar Container -->
@@ -306,79 +280,22 @@
                                     <table class="table table-striped table-valign-middle">
                                         <thead>
                                         <tr>
-                                            <th>Ngày</th>
-                                            <th>Tháng</th>
-                                            <th>Năm</th>
+                                            <th>No</th>
+                                            <th>Ngày-Tháng-Năm</th>
                                             <th>Doanh thu</th>
 
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <td>
-                                                Some Product
-                                            </td>
-                                            <td>$13 USD</td>
-                                            <td>
+                                        <c:forEach items="${listStatisticalMoneyAndDate}" var="statistical">
+                                            <tr>
+                                                <td>${(statistical.id)+1}</td>
 
-                                                12,000 Sold
-                                            </td>
-                                            <td>
-                                                <a href="#" class="text-muted">
-                                                    <i class="fas fa-search"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-
-                                                Another Product
-                                            </td>
-                                            <td>$29 USD</td>
-                                            <td>
-
-
-                                                123,234 Sold
-                                            </td>
-                                            <td>
-                                                <a href="#" class="text-muted">
-                                                    <i class="fas fa-search"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-
-                                                Amazing Product
-                                            </td>
-                                            <td>$1,230 USD</td>
-                                            <td>
-
-                                                198 Sold
-                                            </td>
-                                            <td>
-                                                <a href="#" class="text-muted">
-                                                    <i class="fas fa-search"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-
-                                                Perfect Item
-                                                <span class="badge bg-danger">NEW</span>
-                                            </td>
-                                            <td>$199 USD</td>
-                                            <td>
-
-                                                87 Sold
-                                            </td>
-                                            <td>
-                                                <a href="#" class="text-muted">
-                                                    <i class="fas fa-search"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                                <td> <fmt:formatDate pattern="dd/MM/yyyy"
+                                                                     value="${statistical.dateTotal}"></fmt:formatDate></td>
+                                                <td>${statistical.total}</td>
+                                            </tr>
+                                        </c:forEach>
                                         </tbody>
                                     </table>
                                 </div>

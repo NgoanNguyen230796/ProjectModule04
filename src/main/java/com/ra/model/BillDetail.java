@@ -12,10 +12,10 @@ public class BillDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long billDetailId;
 
-    @Column(name = "price", columnDefinition = "FLOAT CHECK (price > 0)")
+    @Column(name = "price")
     private float price;
 
-    @Column(name = "quantity", columnDefinition = "LONG CHECK (quantity > 0)")
+    @Column(name = "quantity")
     private Long quantity;
 
     @Column(name = "total", columnDefinition = "DOUBLE")

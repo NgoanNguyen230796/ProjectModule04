@@ -68,32 +68,6 @@
                 <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
             </li>
         </ul>
-        <!-- Right navbar links -->
-        <ul class="navbar-nav ml-auto">
-            <!-- Navbar Search -->
-            <li class="nav-item">
-                <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-                    <i class="fas fa-search"></i>
-                </a>
-                <div class="navbar-search-block">
-                    <form class="form-inline">
-                        <div class="input-group input-group-sm">
-                            <input class="form-control form-control-navbar" type="search" placeholder="Search"
-                                   aria-label="Search">
-                            <div class="input-group-append">
-                                <button class="btn btn-navbar" type="submit">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </li>
-
-        </ul>
     </nav>
     <!-- /.navbar -->
     <!-- Main Sidebar Container -->
@@ -268,8 +242,8 @@
                                 <td>${product.productStatus?"Active":"Inactive"}</td>
                                 <td>${product.category.categoryName}</td>
                                 <td>
-                                    <a class="btn btn-outline-danger show" data-bs-toggle="modal"
-                                       href="#showDataDetail"><i class="fa-solid fa-tv"></i></a>
+                                    <a class="btn btn-outline-danger show"
+                                       href="<%=request.getContextPath()%>/productController/showData?productId=${product.productId}"><i class="fa-solid fa-tv"></i></a>
 
                                     <a class="btn btn-outline-warning update" data-bs-toggle="modal"
                                        href="#updateData"><i class="fa-solid fa-pen-to-square"></i></a>
@@ -428,7 +402,7 @@
                     <div class="modal fade" id="updateData" tabindex="-1" aria-labelledby="updateDataModal"
                          aria-hidden="true">
                         <div class="modal-dialog">
-                            <div class="modal-content modalSet">
+                            <div class="modal-content modalSetProduct">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="updateDataModal">Cập nhật danh mục</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -447,6 +421,7 @@
                                                 <label for="productNameUpdate" class="fw-bold">Product Name</label>
                                                 <input type="text" id="productNameUpdate" name="productName"
                                                        class="form-control">
+
                                             </div>
 
                                         </div>
@@ -472,7 +447,8 @@
                                             </div>
                                             <div class="col-6">
                                                 <label for="productImageUpdate" class="fw-bold">Product Image</label>
-                                                <input type="file" id="productImageUpdate" name="productImage">ssssss
+                                                <input type="file" id="productImageUpdate" name="productImage"
+                                                       class="form-control">
                                             </div>
 
                                         </div>
@@ -530,7 +506,7 @@
                                 <div class="modal-body text-center">
                                     <form action="<%=request.getContextPath()%>/productController/delete?"
                                           method="get">
-                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                        <button type="submit" class="btn btn-danger me-3">Delete</button>
                                         <button type="button" class="btn btn-success" data-bs-dismiss="modal">No
                                         </button>
                                         <input type="hidden" name="productIdDelete" id="productIdDelete" value="">
@@ -664,6 +640,7 @@
                         $('#productNameUpdate').val(productUpdateEdit.productName);
                         $('#priceUpdate').val(productUpdateEdit.price);
                         $('#tittleUpdate').val(productUpdateEdit.tittle);
+                        $('#tittleUpdate').val(productUpdateEdit.tittle);
                         $('#productDescriptionUpdate').val(productUpdateEdit.productDescription);
 
                         $('#productImageUpdate').change(function() {
@@ -673,8 +650,8 @@
                         });
                         $('#productImageUpdate').val(productUpdateEdit.productImage);
                         console.log(productUpdateEdit.productImage);
-                        let unit = productUpdateEdit.productUnit == 1 ? "Yến" : productUpdateEdit.productUnit == 2 ? "Kg" : "Gram";
-                        $('#productUnit').val(unit);
+                        // let unit = productUpdateEdit.productUnit == 1 ? "Yến" : productUpdateEdit.productUnit == 2 ? "Kg" : "Gram";
+                        $('#productUnit').val(productUpdateEdit.productUnit);
                         let status = productUpdateEdit.productStatus.toString();
                         $('#productStatusUpdate').val(status);
                         $('#categoryUpdate').val(productUpdateEdit.categoryId);
@@ -707,15 +684,20 @@
                         $('#tittleUpdate').val(productUpdateEdit.tittle);
                         $('#productDescriptionUpdate').val(productUpdateEdit.productDescription);
 
-                        $('#productImageUpdate').change(function() {
-                            var i = $(this).prev('label').clone();
-                            var file = $('#file-upload')[0].files[0].name;
-                            $(this).prev('label').text(file);
-                        });
-                        $('#productImageUpdate').val(productUpdateEdit.productImage);
+                        // $('#productImageUpdate').change(function() {
+                        //     var i = $(this).prev('label').clone();
+                        //     var file = $('#file-upload')[0].files[0].name;
+                        //     $(this).prev('label').text(file);
+                        // });
+
+                        let productImageUpdate = document.getElementById("productImageUpdate");
+                        productImageUpdate[0].files[0]=productUpdateEdit.productImage;
+                        // $('input[type=file]').val(productUpdateEdit.productImage)
+
+                        // $('#productImageUpdate').val(productUpdateEdit.productImage);
                         console.log(productUpdateEdit.productImage);
-                        let unit = productUpdateEdit.productUnit == 1 ? "Yến" : productUpdateEdit.productUnit == 2 ? "Kg" : "Gram";
-                        $('#productUnit').val(unit);
+                        // let unit = productUpdateEdit.productUnit == 1 ? "Yến" : productUpdateEdit.productUnit == 2 ? "Kg" : "Gram";
+                        $('#productUnit').val(productUpdateEdit.productUnit);
                         let status = productUpdateEdit.productStatus.toString();
                         $('#productStatusUpdate').val(status);
                         $('#categoryUpdate').val(productUpdateEdit.categoryId);

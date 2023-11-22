@@ -68,32 +68,6 @@
                 <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
             </li>
         </ul>
-        <!-- Right navbar links -->
-        <ul class="navbar-nav ml-auto">
-            <!-- Navbar Search -->
-            <li class="nav-item">
-                <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-                    <i class="fas fa-search"></i>
-                </a>
-                <div class="navbar-search-block">
-                    <form class="form-inline">
-                        <div class="input-group input-group-sm">
-                            <input class="form-control form-control-navbar" type="search" placeholder="Search"
-                                   aria-label="Search">
-                            <div class="input-group-append">
-                                <button class="btn btn-navbar" type="submit">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </li>
-
-        </ul>
     </nav>
     <!-- /.navbar -->
     <!-- Main Sidebar Container -->
@@ -400,6 +374,8 @@
                                                    class="form-control">
                                             <div class="col-6">
                                                 <label for="accountUpdate" class="fw-bold">Email</label>
+<%--                                                <input type="text" id="accountUpdate" name="account.accId"--%>
+<%--                                                       class="form-control" readonly>--%>
                                                 <select id="accountUpdate" name="account.accId" class="form-select">
                                                     <c:forEach items="${listAccount}" var="account">
                                                         <option value="${account.accId}">${account.email}</option>
@@ -480,7 +456,7 @@
                                 <!-- Modal body -->
                                 <div class="modal-body text-center">
                                     <form action="<%=request.getContextPath()%>/billController/cancel?">
-                                        <button type="submit" class="btn btn-danger" id="btnDelete">Yes</button>
+                                        <button type="submit" class="btn btn-danger me-3" id="btnDelete">Yes</button>
                                         <button type="button" class="btn btn-success" data-bs-dismiss="modal">No
                                         </button>
                                         <input type="hidden" name="billIdCancel" id="billIdCancel" value="">

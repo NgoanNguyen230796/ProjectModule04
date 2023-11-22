@@ -2,10 +2,7 @@ package com.ra.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.ra.model.Category;
-import com.ra.model.ImageProduct;
-import com.ra.model.Product;
-import com.ra.model.ProductUpdate;
+import com.ra.model.*;
 import com.ra.service.*;
 import com.ra.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletResponse;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +38,8 @@ public class ProductController {
     private final Gson GSON = new Gson();
     @Autowired
     private ImageProductService imageProductService;
+    @Autowired
+    private IProductImageService imageService;
     private static final int SIZE = 3;
     private static String productNameAndTittleDefault = "";
     private static String directionDefault = "ASC";
@@ -118,61 +118,8 @@ public class ProductController {
         }
     }
 
-    //Show dữ liệu lên trên form
-//    @GetMapping("/initUpdate")
-//    public ResponseEntity<String> initUpdate(@RequestParam(name = "productId") String productId) {
-//        try {
-//            // Bước 1: Gọi sang productService để lấy thông tin sản phẩm theo productId
-//            Product productEdit = productService.findByProductId(productId);
-//
-//            // Chuyển đổi đối tượng Product và Category thành JSON
-//            String jsonProduct = GSON.toJson(productEdit);
-//            String jsonCategory = GSON.toJson(productEdit.getCategory());
-//
-//            // Tạo một đối tượng JsonObject để kết hợp cả hai JSON
-//            JsonObject jsonObject = new JsonObject();
-//            jsonObject.addProperty("product", jsonProduct);
-//            jsonObject.addProperty("category", jsonCategory);
-//
-//            // Trả về ResponseEntity chứa dữ liệu JSON và header "Content-Type"
-//            HttpHeaders responseHeaders = new HttpHeaders();
-//            responseHeaders.setContentType(MediaType.APPLICATION_JSON);
-//            responseHeaders.setContentLength(jsonObject.toString().length());
-//
-//            return ResponseEntity.ok().header("Content-Type", "application/json").body(jsonObject.toString());
-//        } catch (Exception e) {
-//            e.printStackTrace(); // In stack trace để xem lỗi chi tiết
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
-//        }
-//    }
 
-//    @GetMapping("/initUpdate")
-//    public ResponseEntity<String> initUpdate(@RequestParam(name = "productId") String productId) {
-//        try {
-//            // Bước 1: Gọi sang productService để lấy thông tin sản phẩm theo productId
-//            Product productEdit = productService.findByProductId(productId);
-//
-//            // Chuyển đổi đối tượng Product và Category thành JSON
-//            Gson gson = new Gson();
-//            String jsonProduct = gson.toJson(productEdit);
-//            String jsonCategory = gson.toJson(productEdit.getCategory());
-//
-//            // Tạo một đối tượng JsonObject để kết hợp cả hai JSON
-//            JsonObject jsonObject = new JsonObject();
-//            jsonObject.addProperty("product", jsonProduct);
-//            jsonObject.addProperty("category", jsonCategory);
-//
-//            // Trả về ResponseEntity chứa dữ liệu JSON và header "Content-Type"
-//            HttpHeaders responseHeaders = new HttpHeaders();
-//            responseHeaders.setContentType(MediaType.APPLICATION_JSON);
-//            responseHeaders.setContentLength(jsonObject.toString().length());
-//
-//            return ResponseEntity.ok().headers(responseHeaders).body(jsonObject.toString());
-//        } catch (Exception e) {
-//            e.printStackTrace(); // In stack trace để xem lỗi chi tiết
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
-//        }
-//    }
+
 
     @ResponseBody
     @GetMapping("/initUpdate")
@@ -193,13 +140,15 @@ public class ProductController {
 
         //Chuyen du lieu tu java object sang JSON
 //        String json = new Gson().toJson(productUpdateEdit);
-        String json = new Gson().toJson(productEdit);
+        String json = new Gson().toJson(productUpdateEdit);
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Content-Type", "application/json");
         System.out.println("Ok Test");
         return new ResponseEntity<>(json, responseHeaders, HttpStatus.OK);
     }
+
+
 
     @ResponseBody
     @GetMapping("/initShow")
@@ -239,7 +188,10 @@ public class ProductController {
 
 
     @PostMapping("/update")
-    public String updateProduct(Product productEdit) {
+    public String updateProduct(Product productEdit,MultipartFile productImage) {
+        String urlImage = uploadFileService.uploadFile(productImage);
+        productEdit.setProductImageName(productImage.getOriginalFilename());
+        productEdit.setImage(urlImage);
         //Bước 1:gọi sang studentService cập nhật thông tin sinh viên
         boolean result = productService.update(productEdit);
         //Bước 2:nhận result và điều hướng sang trang hiển thị
@@ -269,6 +221,27 @@ public class ProductController {
         }
         return mav;
     }
+
+    @GetMapping(value = "/showData")
+    public ModelAndView showData(String productId) {
+        ModelAndView mav = new ModelAndView();
+        Product productShow=productService.findByProductId(productId);
+//        List<Product> listProduct = new ArrayList<>();
+//        listProduct.add(productShow);
+        List<ImageProduct> listImageProduct=imageService.findAllDataByProduct_ProductId(productId);
+        if(productShow!=null){
+            mav.setViewName("productDetail");
+            mav.addObject("productShow", productShow);
+            mav.addObject("listImageProduct", listImageProduct);
+        }else{
+            mav.setViewName("error");
+        }
+        return mav;
+    }
+
+
+
+
 
 
 }
