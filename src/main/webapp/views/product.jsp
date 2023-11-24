@@ -445,10 +445,14 @@
                                                        name="productDescription"
                                                        class="form-control">
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-3">
                                                 <label for="productImageUpdate" class="fw-bold">Product Image</label>
+                                                <input type="hidden" name="productImageName" id="productImageNameUpdate">
                                                 <input type="file" id="productImageUpdate" name="productImage"
                                                        class="form-control">
+                                            </div>
+                                            <div class="col-3">
+                                                <img src="" alt="Anh" id="Anh">
                                             </div>
 
                                         </div>
@@ -655,6 +659,13 @@
                         let status = productUpdateEdit.productStatus.toString();
                         $('#productStatusUpdate').val(status);
                         $('#categoryUpdate').val(productUpdateEdit.categoryId);
+                        $('#productImageNameUpdate').val(productUpdateEdit.image);
+                        console.log(productUpdateEdit.image);
+                        // let imageValue=document.getElementById("Anh");
+                        $('#Anh').attr('src',productUpdateEdit.image);
+                        // imageValue.innerHTML.src=productUpdateEdit.image;
+                        // $('#Anh').val(productUpdateEdit.image);
+
 
 
                     } catch (e) {
