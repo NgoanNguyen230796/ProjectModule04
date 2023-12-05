@@ -35,17 +35,6 @@ public class BillDetailController {
         return mav;
     }
 
-//    @GetMapping("/initUpdate")
-//    public ResponseEntity<String> initUpdate(long billDetailId) {
-//        //Bước 1 :gọi sang CategoryService lấy thông tin sp theo categoryId
-//        BillDetail billDetailEdit = billDetailService.findByIdBillDetailId(billDetailId);
-//        BillAndBillDetailUpdate billAndBillDetailUpdate=new BillAndBillDetailUpdate(billDetailEdit.getBillDetailId(),billDetailEdit.getBill().getBillId(),billDetailEdit.getA);
-//        //Chuyen du lieu tu java object sang JSON
-//        String json = new Gson().toJson(accountUpdate);
-//        HttpHeaders responseHeaders = new HttpHeaders();
-//        responseHeaders.set("Content-Type", "application/json");
-//        return new ResponseEntity<>(json, responseHeaders, HttpStatus.OK);
-//    }
 
 
 

@@ -84,18 +84,6 @@ public class ProductController {
     }
 
 
-//    @PostMapping(value = "/create")
-//    public String createProduct(Product product, MultipartFile productImage) {
-//        String urlImage = uploadFileService.uploadFile(productImage);
-//        product.setImage(urlImage);
-//        boolean result = productService.save(product);
-//        if (result) {
-//            return "redirect:productGetAllData";
-//        } else {
-//            return "error";
-//        }
-//    }
-
     @PostMapping(value = "/create")
     public String createProduct(Product product, MultipartFile productImage, MultipartFile[] otherImages) {
         String urlImage = uploadFileService.uploadFile(productImage);
@@ -177,14 +165,6 @@ public class ProductController {
         return new ResponseEntity<>(json, responseHeaders, HttpStatus.OK);
     }
 
-
-    //Show dữ liệu lên trên form
-//    @GetMapping(value = "/initUpdate")
-//    public String initUpdate(ModelMap modelMap, @RequestParam(name = "productId")String productId) {
-//        Product productEdit = productService.findByProductId(productId);
-//        modelMap.addAttribute("productEdit",productEdit);
-//        return "productUpdate";
-//    }
 
 
     @PostMapping("/update")

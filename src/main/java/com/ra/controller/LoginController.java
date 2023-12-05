@@ -17,22 +17,6 @@ public class LoginController {
         ModelAndView mav = new ModelAndView("login");
         return mav;
     }
-//    @PostMapping(value = "/login")
-//    public ModelAndView createCategories(String email, String password) {
-//        ModelAndView mav1 = new ModelAndView("category");
-//        ModelAndView mav2 = new ModelAndView("login");
-//        if(email.equals("admin@gmail.com")&& password.equals("1234")){
-//            System.out.println("Đăng nhập thành công");
-////            model.addAttribute("messageSuccess",messageSuccess) ;
-////           model.addAttribute("messageError",messageError) ;
-//            return "redirect:/categoryController/categoryGetAllData";
-////            return mav1;
-//
-//        }else{
-//            mav2.addObject("messageError",messageError) ;
-//            return mav2;
-//        }
-//    }
 
     @PostMapping(value = "/login")
     public ModelAndView createCategories(String email, String password) {

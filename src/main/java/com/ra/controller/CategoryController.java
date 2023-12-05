@@ -29,8 +29,6 @@ public class CategoryController {
     private static String sortByDefault = "categoryId";
     private static int PAGE = 1;
     private static int pageDefault = 1;
-//    private static String success="Xóa thành công";
-//    private static String error="Danh mục có chứa sản phẩm không thể xóa được";
 
     @GetMapping(value = "/categoryGetAllData")
     public ModelAndView getAllData(Optional<String> categoryNameSearch, Optional<Integer> page,
@@ -54,15 +52,7 @@ public class CategoryController {
         mav.addObject("direction", directionDefault);
         return mav;
     }
-//    @GetMapping(value = "/getDataForm")
-//    public Model getDataForm(Model model, @NotBlank @RequestParam (name = "categoryName") String categoryName) {
-//        model.addAttribute("responseCategoryName",categoryName);
-//        return model;
-//    }
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public ResponseEntity<String> errorForm(MethodArgumentNotValidException e){
-//        return ResponseEntity.ok(e.getMessage());
-//    }
+
 
 
     //Thêm mới
@@ -120,30 +110,6 @@ public class CategoryController {
         // Trả về ModelAndView chứa dữ liệu và điều hướng đến trang category.jsp
         return mav;
     }
-
-//    @GetMapping(value = "/delete")
-//    public ModelAndView deleteCategories(@RequestParam int catalogIdDelete) {
-//        ModelAndView mav = new ModelAndView();
-//        String success = "success";
-//        String error = "error";
-//        mav.setViewName("redirect:/categoryController/categoryGetAllData");
-//
-//        if (categoryDeleteCheck.getListProduct().size() != 0) {
-//            model.addAttribute("message", error);
-//        } else {
-//        // Bước 1: Gọi sang CategoriesService thực hiện xóa sản phẩm
-//        boolean result = categoryService.delete(catalogIdDelete);
-//        // Bước 2: Nhận result và điều hướng sang trang hiển thị
-//        if (result) {
-//            // Trường hợp xóa thành công, thêm thông báo vào model
-//            mav.addObject("message", success);
-//
-//        } else {
-//            mav.addObject("message", error);
-//        }
-//
-//        return mav;
-//    }
 
 
 }

@@ -79,25 +79,6 @@ public class BillController {
         }
     }
 
-//    @GetMapping(value = "/")
-//    public String initCreate(Model model, @RequestParam String billId) {
-//        String success = "successInit";
-//        String error = "errorInit";
-//        // Bước 1: Gọi sang billService thực hiện ktra
-//        boolean result = billService.isCheckBillStatus(billId);
-//        // Bước 2: Nhận result và điều hướng sang trang hiển thị
-//        if (result) {
-//            // Trường hợp xóa thành công, thêm thông báo vào model
-//            model.addAttribute("messageInit", success);
-//        } else {
-//
-//            model.addAttribute("messageInit", error);
-//        }
-//
-//        // Trả về ModelAndView chứa dữ liệu và điều hướng đến trang category.jsp
-//        return "redirect:billGetAllData";
-//    }
-
 
 
 
@@ -140,17 +121,6 @@ public class BillController {
             return "error";
         }
     }
-//    @PostMapping(value = "/cancel")
-//    public String cancel(Bill billCancel) {
-//        //Thực hiện gọi sang service thực hiện thêm mới
-//        boolean result = billService.saveOrUpdate(billCancel);
-//        //Bước 2:nhận result và điều hướng sang trang hiển thị
-//        if (result) {
-//            return "redirect:billGetAllData?page=1";
-//        } else {
-//            return "error";
-//        }
-//    }
 
 
     @GetMapping(value = "/cancel")

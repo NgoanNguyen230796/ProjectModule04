@@ -447,9 +447,8 @@
                                             </div>
                                             <div class="col-3">
                                                 <label for="productImageUpdate" class="fw-bold">Product Image</label>
-                                                <input type="hidden" name="productImageName" id="productImageNameUpdate">
-                                                <input type="file" id="productImageUpdate" name="productImage"
-                                                       class="form-control">
+                                                <input type="hidden" id="productImageNameUpdate" name="productImage">
+                                                <input type="file" id="productImageUpdate" name="productImage" class="form-control">
                                             </div>
                                             <div class="col-3">
                                                 <img src="" alt="Anh" id="Anh">
@@ -646,25 +645,15 @@
                         $('#tittleUpdate').val(productUpdateEdit.tittle);
                         $('#tittleUpdate').val(productUpdateEdit.tittle);
                         $('#productDescriptionUpdate').val(productUpdateEdit.productDescription);
-
-                        $('#productImageUpdate').change(function() {
-                            var i = $(this).prev('label').clone();
-                            var file = $('#file-upload')[0].files[0].name;
-                            $(this).prev('label').text(file);
-                        });
                         $('#productImageUpdate').val(productUpdateEdit.productImage);
                         console.log(productUpdateEdit.productImage);
-                        // let unit = productUpdateEdit.productUnit == 1 ? "Yến" : productUpdateEdit.productUnit == 2 ? "Kg" : "Gram";
                         $('#productUnit').val(productUpdateEdit.productUnit);
                         let status = productUpdateEdit.productStatus.toString();
                         $('#productStatusUpdate').val(status);
                         $('#categoryUpdate').val(productUpdateEdit.categoryId);
                         $('#productImageNameUpdate').val(productUpdateEdit.image);
                         console.log(productUpdateEdit.image);
-                        // let imageValue=document.getElementById("Anh");
                         $('#Anh').attr('src',productUpdateEdit.image);
-                        // imageValue.innerHTML.src=productUpdateEdit.image;
-                        // $('#Anh').val(productUpdateEdit.image);
 
 
 

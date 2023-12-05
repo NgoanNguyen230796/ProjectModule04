@@ -36,5 +36,9 @@ function changeDirectionProduct(){
             window.location="productGetAllData?direction=" + directionProduct + "&sortBy="+sortByProduct;
             break;
     }
-    // window.location="productGetAllData?direction="+direction;
+}
+
+function deleteImage(){
+    let deleteImage = document.getElementById('imageDelete');
+    deleteImage.parentNode.removeChild(deleteImage);
 }
